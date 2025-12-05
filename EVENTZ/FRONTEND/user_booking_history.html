@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Zone | My Bookings</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* 🌌 Purple Neon Theme */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top left, #1a0024, #0b0013 70%);
+  color: #e9dbff;
+  min-height: 100vh;
+}
+
+/* Header */
+header {
+  background: linear-gradient(90deg, #7a00ff, #b44fff);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 0 25px #b44fff;
+  text-shadow: 0 0 10px #ff4fff;
+  position: relative;
+}
+
+/* Back Button */
+#backBtn {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#backBtn:hover {
+  color: #ff4fff;
+  text-shadow: 0 0 10px #ff4fff;
+}
+
+/* Container */
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.controls select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #b44fff;
+  background: #1a0027;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(180, 79, 255, 0.4);
+}
+.controls select:focus {
+  outline: none;
+  box-shadow: 0 0 15px #ff4fff;
+}
+
+/* Booking Cards */
+.booking-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(180,79,255,0.3);
+  padding: 25px 20px;
+  margin-bottom: 25px;
+  transition: 0.3s;
+  backdrop-filter: blur(10px);
+}
+.booking-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(255, 79, 255, 0.4);
+}
+.booking-header {
+  font-weight: 700;
+  color: #c98aff;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px #b44fff;
+}
+.item-detail {
+  margin: 6px 0;
+  font-size: 1rem;
+}
+
+/* Inputs */
+input, select {
+  padding: 8px;
+  border: 2px solid #b44fff;
+  border-radius: 8px;
+  margin-left: 10px;
+  background: #1a0027;
+  color: #fff;
+  font-size: 0.95rem;
+  box-shadow: 0 0 10px rgba(180, 79, 255, 0.3);
+  transition: 0.3s;
+}
+input:focus, select:focus {
+  border-color: #ff4fff;
+  box-shadow: 0 0 15px #ff4fff;
+}
+
+/* Price */
+.price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffb8ff;
+  margin: 10px 0;
+  text-shadow: 0 0 8px #ff4fff;
+}
+
+/* Status Tags */
+.status {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+.paid { background: #9d00ff; }
+.pending { background: #ffcc00; color: #222; }
+.cancelled { background: #ff0055; }
+.upcoming { background: #6a00ff; }
+.completed { background: #8a00b8; }
+
+/* Actions */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+.actions button, .actions a {
+  background: linear-gradient(90deg, #7a00ff, #b44fff);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 25px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 0 0 15px #b44fff;
+  transition: 0.3s;
+}
+.actions button:hover, .actions a:hover {
+  background: linear-gradient(90deg, #9d00ff, #ff4fff);
+  box-shadow: 0 0 25px #ff4fff;
+}
+
+/* No Bookings Message */
+.no-bookings {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.1rem;
+  color: #bbb;
+  text-shadow: 0 0 8px #b44fff;
+}
+
+@media(max-width:700px){
+  .booking-card { padding: 20px; }
+  .actions { flex-direction: column; }
+  input, select { margin-left: 0; margin-top: 5px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  Event Zone | My Bookings
+  <button id="backBtn" onclick="window.location.href='mainpage.html'"><i class="fa-solid fa-arrow-left"></i></button>
+</header>
+
+<div class="container">
+  <div class="controls">
+    <select id="filterStatus">
+      <option value="all">All Status</option>
+      <option value="paid">Paid</option>
+      <option value="pending">Pending</option>
+      <option value="cancelled">Cancelled</option>
+      <option value="upcoming">Upcoming</option>
+      <option value="completed">Completed</option>
+    </select>
+
+    <select id="sortDate">
+      <option value="asc">Date Ascending</option>
+      <option value="desc">Date Descending</option>
+    </select>
+  </div>
+
+  <div id="bookingsContainer"></div>
+  <div class="no-bookings" id="noBookings" style="display:none;">
+    <i class="fa-solid fa-folder-open"></i><br>No bookings found!
+  </div>
+</div>
+
+<script>
+const apiBase = "http://localhost:5000/api";
+const bookingsContainer = document.getElementById("bookingsContainer");
+const noBookings = document.getElementById("noBookings");
+const filterStatus = document.getElementById("filterStatus");
+const sortDate = document.getElementById("sortDate");
+
+let allBookings = [];
+
+const loggedUser = JSON.parse(localStorage.getItem("loggedInUser"));
+if (!loggedUser) {
+  alert("You must log in first.");
+  window.location.href = "Loginpage.html";
+}
+
+// Load bookings from backend
+function loadBookings() {
+fetch(`${apiBase}/user-bookings/${loggedUser.id}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!data.success || data.bookings.length === 0) {
+        noBookings.style.display = "block";
+        return;
+      }
+      allBookings = data.bookings;
+      renderBookings();
+    }).catch(err => {
+      console.error("Error fetching bookings:", err);
+      alert("Unable to load bookings. Try again later.");
+    });
+}
+
+function renderBookings() {
+  bookingsContainer.innerHTML = "";
+  let bookings = [...allBookings];
+
+  const statusFilter = filterStatus.value;
+  if (statusFilter !== "all")
+    bookings = bookings.filter(b => b.STATUS.toLowerCase() === statusFilter);
+
+  bookings.sort((a, b) => {
+    const d1 = new Date(a.EVENT_DATE);
+    const d2 = new Date(b.EVENT_DATE);
+    return sortDate.value === "asc" ? d1 - d2 : d2 - d1;
+  });
+
+  if (bookings.length === 0) {
+    noBookings.style.display = "block";
+    return;
+  } else {
+    noBookings.style.display = "none";
+  }
+
+  bookings.forEach(b => {
+    const card = document.createElement("div");
+    card.className = "booking-card";
+    const statusClass = b.STATUS.toLowerCase();
+
+    card.innerHTML = `
+      <div class="booking-header">${b.EVENT_NAME}</div>
+      <div class="item-detail"><strong>Date:</strong> 
+        <input type="date" value="${b.EVENT_DATE.split('T')[0] || ''}" id="date-${b.BOOKING_ID}">
+      </div>
+      <div class="item-detail"><strong>Plan:</strong>
+        <select id="plan-${b.BOOKING_ID}">
+          <option value="Lite" ${b.PLAN==="Lite"?"selected":""}>Lite</option>
+          <option value="Elite" ${b.PLAN==="Elite"?"selected":""}>Elite</option>
+          <option value="Enlight" ${b.PLAN==="Enlight"?"selected":""}>Enlight</option>
+        </select>
+      </div>
+      <div class="item-detail"><strong>Guests:</strong>
+        <input type="number" value="${b.GUESTS}" id="guests-${b.BOOKING_ID}">
+      </div>
+      <div class="price">₹<span id="price-${b.BOOKING_ID}">${parseFloat(b.PRICE).toLocaleString()}</span></div>
+      <div class="item-detail"><strong>Status:</strong>
+        <span class="status ${statusClass}">${b.STATUS}</span>
+      </div>
+      <div class="actions">
+        ${b.STATUS.toLowerCase() === 'pending' ? `<button onclick="payBooking(${b.BOOKING_ID})">Pay Now</button>` : ""}
+        ${b.STATUS.toLowerCase() !== 'cancelled' ? `<button onclick="cancelBooking(${b.BOOKING_ID})">Cancel Booking</button>` : ""}
+        <button onclick="confirmChanges(${b.BOOKING_ID})">Confirm Changes</button>
+        <button onclick="downloadReceipt(${b.BOOKING_ID})"><i class="fa-solid fa-receipt"></i> View Receipt</button>
+      </div>
+    `;
+    bookingsContainer.appendChild(card);
+  });
+}
+
+function confirmChanges(id) {
+  const date = document.getElementById(`date-${id}`).value;
+  const plan = document.getElementById(`plan-${id}`).value;
+  const guests = document.getElementById(`guests-${id}`).value;
+
+  fetch(`${apiBase}/update-booking`, {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ id, date, plan, guests })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("✅ Booking updated!");
+      loadBookings();
+    } else {
+      alert("❌ Update failed: " + data.message);
+    }
+  })
+  .catch(err => { console.error(err); alert("Server error"); });
+}
+
+function cancelBooking(id) {
+  if (!confirm("Are you sure you want to cancel this booking?")) return;
+  fetch(`${apiBase}/cancel-booking`, {
+    method: "POST",
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ id })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("✅ Booking cancelled!");
+      loadBookings();
+    } else {
+      alert("❌ Cancel failed: " + data.message);
+    }
+  })
+  .catch(err => { console.error(err); alert("Server error"); });
+}
+
+function payBooking(id) {
+  fetch(`${apiBase}/pay-booking`, {
+    method: "POST",
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ id })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("✅ Payment successful!");
+      loadBookings();
+    } else {
+      alert("❌ Payment failed: " + data.message);
+    }
+  })
+  .catch(err => { console.error(err); alert("Server error"); });
+}
+
+function downloadReceipt(id) {
+  fetch(`${apiBase}/bookings/${id}/receipt`)
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to generate receipt");
+      return res.blob();
+    })
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `booking_${id}_receipt.pdf`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    })
+    .catch(err => {
+      console.error(err);
+      alert("❌ Could not download receipt.");
+    });
+}
+
+filterStatus.addEventListener('change', renderBookings);
+sortDate.addEventListener('change', renderBookings);
+loadBookings();
+</script>
+
+</body>
+</html>
+

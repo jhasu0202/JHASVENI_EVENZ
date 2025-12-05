@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EVENT'Z | Main Event Page</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------------- Base Reset ---------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f2f2f8, #fff);
+  color: #1d1d1d;
+  overflow-x: hidden;
+  text-align: center;
+  transition: all 0.4s ease;
+}
+.dark-mode {
+  background: linear-gradient(135deg, #0b0015, #1c052c);
+  color: #020802;
+}
+
+.dark-mode-serving {
+  color: #dedede;
+}
+
+/* ---------------- Header ---------------- */
+header {
+  background: white;
+  color: #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+.dark-mode header {
+  background: #1c052c;
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(255,255,255,0.05);
+}
+
+header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.header-actions .chip {
+  background: #eee;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+body.dark-mode {
+  background-color: #1e1e2f;
+  color: #f5f5f5;
+}
+
+body.dark-mode .card,
+body.dark-mode .footer,
+body.dark-mode .sidebar,
+body.dark-mode header {
+  background-color: #2a2a40;
+  color: #f5f5f5;
+  box-shadow: 0 0 15px rgba(155, 89, 182, 0.4);
+}
+
+body.dark-mode a {
+  color: #d1b3ff;
+}
+.dark-mode .event-card {
+  background: #1b082b;
+  color: #e0ccff;
+  box-shadow: 0 0 15px rgba(183, 66, 255, 0.4), 0 0 30px rgba(155, 89, 182, 0.3);
+  border: 1px solid rgba(200, 150, 255, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.dark-mode .event-card:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px rgba(183, 66, 255, 0.8), 0 0 40px rgba(155, 89, 182, 0.7);
+}
+.dark-mode .event-card h3 {
+  color: #d3b3ff;
+}
+.dark-mode .event-card img {
+  filter: drop-shadow(0 0 6px rgba(183, 66, 255, 0.8))
+          drop-shadow(0 0 12px rgba(155, 89, 182, 0.6));
+}
+.dark-mode h2, 
+.dark-mode h1 {
+  color: #d3b3ff;
+  text-shadow: 0 0 6px rgba(183, 66, 255, 0.6);
+}
+
+:root {
+  --primary-purple: #8000ff;
+  --accent-pink: #e040fb;
+  --dark-bg: #1b082b;
+  --light-bg: #fff;
+}
+.ai-btn {
+  background: linear-gradient(45deg, var(--primary-purple), var(--accent-pink));
+}
+
+.dark-mode .carousel .overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+.dark-mode footer {
+  background: linear-gradient(90deg, #100020, #2b0b45);
+}
+
+.header-actions i {
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.header-actions i:hover {
+  color: purple;
+}
+
+/* ---------------- Sidebar ---------------- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 240px;
+  height: 100vh;
+  background: #fff;
+  color: #111;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+  padding: 24px 0;
+  transition: left 0.3s;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.sidebar.active {
+  left: 0;
+}
+.dark-mode .sidebar {
+  background: #190530;
+  color: #000000;
+}
+.sidebar h2 {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.sidebar ul {
+  list-style: none;
+}
+.sidebar ul li {
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.sidebar ul li:hover {
+  background: rgba(128,0,255,0.1);
+}
+.dark-mode .sidebar ul li:hover {
+  background: rgba(255,255,255,0.1);
+}
+.sidebar .bottom-menu {
+  text-align: center;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  padding-top: 12px;
+}
+
+/* ---------------- Carousel ---------------- */
+.carousel {
+  position: relative;
+  margin: 30px auto;
+  width: 90%;
+  max-width: 1200px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+.carousel img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 20px;
+  transition: opacity 1s ease;
+}
+.carousel .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+  border-radius: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 20px;
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+.carousel-dots div {
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
+  background: gray;
+  margin: 0 5px;
+  transition: 0.1s;
+}
+.carousel-dots .active {
+  width: 18px;
+  background: purple;
+}
+
+
+/* --- Event Grid Layout --- */
+.event-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.event-card {
+  background: var(--card-bg, #fff);
+  border-radius: 20px;
+  padding: 20px;
+  width: 160px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(200, 200, 255, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.event-card img {
+  width: 60px;
+  height: 60px;
+}
+.event-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(128, 0, 255, 0.5);
+}
+
+.dark-mode .card {
+  background: #262626;
+  color: white;
+  box-shadow: 0 2px 8px rgba(255,255,255,0.05);
+}
+
+
+/* Light mode glow */
+.card:hover img {
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.9))
+          drop-shadow(0 0 10px rgba(255,255,255,0.6));
+}
+
+/* Dark mode glow */
+.dark-mode .card:hover img {
+  filter: drop-shadow(0 0 6px rgba(153, 0, 255, 0.9))
+          drop-shadow(0 0 12px rgba(128, 0, 255, 0.7))
+          drop-shadow(0 0 18px rgba(128, 0, 255, 0.5));
+}
+.dark-mode #city-display,
+.dark-mode #date-display {
+  background: #2a2a40;
+  color: #d3b3ff;
+  box-shadow: 0 0 8px rgba(155, 89, 182, 0.5);
+}
+
+.dark-mode #city-display i,
+.dark-mode #date-display i {
+  color: #d3b3ff;
+}
+
+.dark-mode #city-display:hover,
+.dark-mode #date-display:hover {
+  background: #3a2a5c;
+  box-shadow: 0 0 12px rgba(183, 66, 255, 0.8);
+}
+
+/* --- Event Title --- */
+.card h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ff7a00;
+  margin-top: 6px;
+}
+
+.dark-mode .card h3 {
+  color: #d3b3ff;
+}
+
+
+/* ---------------- Footer ---------------- */
+footer {
+  background: linear-gradient(90deg, #0b0015, #3a1660);
+  color: white;
+  padding: 24px;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 40px;
+}
+footer .contact {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+footer i {
+  font-size: 28px;
+}
+footer span {
+  display: block;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.links:hover {
+  color: #d6dd02;
+  text-decoration: underline;
+}
+.contact-us{
+  color:rgb(243, 242, 242);
+  text-decoration: none;
+}
+.contact-us:hover{
+  color: #d6dd02;
+  text-decoration: underline;
+
+}
+.links:hover {
+  color: #d6dd02;
+  text-decoration: underline;
+}
+.aboutpage{
+  color:rgb(243, 242, 242);
+  text-decoration: none;
+}
+.aboutpage:hover{
+  color: #d6dd02;
+  text-decoration: underline;
+
+}
+
+/* ---------------- AI Assistant Button ---------------- */
+.ai-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: linear-gradient(45deg, #8000ff, #e040fb);
+  border: none;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(128,0,255,0.4);
+  transition: 0.4s;
+}
+.ai-btn:hover {
+  transform: scale(1.1);
+}
+
+/* ---------------- Feedback Modal ---------------- */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center; align-items: center;
+  z-index: 2000;
+}
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  animation: pop 0.3s ease;
+}
+.dark-mode .modal-content {
+  background: #24063d;
+  color: rgb(0, 0, 0);
+}
+@keyframes pop {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.stars i {
+  color: gray;
+  font-size: 26px;
+  cursor: pointer;
+}
+.stars i.selected {
+  color: gold;
+}
+textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  margin-top: 12px;
+  background: #f5f5f5;
+}
+.dark-mode textarea {
+  background: #35125a;
+  color: rgb(255, 255, 255);
+}
+button.submit-btn {
+  background: purple;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 20px;
+  margin-top: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.inputVisible {
+ display: none;
+}
+</style>
+</head>
+
+<body>
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div>
+    <h2>EVENT'Z Menu</h2>
+    <ul>
+      <li class="links"><a href="calendarpage.html"  target="_self" class="" style="text-decoration: none;color:black">Calendar</a></li>
+      <li class="links"><a href="cartpage.html" target="_self" style="text-decoration: none;color:black">Cart</a></li>
+      <li class="links">
+  <a href="userprofile_settingpage.html" target="_self" style="text-decoration: none; color:black">Profile</a>
+</li>
+<li class="links"><a href="feedbackpage.html" target="_self" style="text-decoration: none;color:black">FeedBack</a></li>
+<li class="links"><a href="faq_helppage.html" target="_self" style="text-decoration: none;color:black">Faq/Help</a></li>
+<li class="links"><a href="old_index.html" target="_self" style="text-decoration: none;color:black">About us</a></li>
+<li class="links"><a href="user_booking_history.html" target="_self" style="text-decoration: none;color:black">Booking History</a></li>
+    </ul>
+  </div>
+  <div class="bottom-menu">
+    <li class="links"><a href="contactsupportpage.html" target="_self" style="text-decoration: none;color: black;">Contact</a></li>
+  </div>
+</div>
+
+<!-- Header -->
+<header>
+  <h1 id="menu-btn"><i class="fa-solid fa-bars"></i> EVENT'Z</h1>
+  <div class="header-actions">
+    <div class="chip" id="date-display"><i class="fa-solid fa-calendar-days"></i> Select Date
+    <input type="date" id="event-date" class="inputVisible" />
+    </div>
+    <div class="chip" id="city-display"><i class="fa-solid fa-location-dot"></i><a href="citypage.html" target="_blank" >Select City</a></div>
+    <a href="notificationspage.html" target="_blank">
+  <i class="fa-solid fa-bell" id="notifications"></i>
+</a>
+    <i class="fa-solid fa-moon" id="toggle-theme"></i>
+  </div>
+</header>
+
+<!-- Carousel -->
+<div class="carousel">
+  <img id="carousel-img" src="assets/images/event1.jpeg" alt="">
+  <div class="overlay" id="carousel-title">Celebrate Your Moments</div>
+</div>
+<div class="carousel-dots" id="carousel-dots"></div>
+
+<section class="events-section">
+  <h2>Choose Your Event</h2>
+  <div id="event-grid" class="event-grid"></div>
+</section>
+
+
+
+<!-- AI Assistant -->
+<button class="ai-btn" onclick="window.location.href='message_chatpage.html'">
+  <i class="fa-solid fa-robot"></i>
+</button>
+
+
+<!-- Feedback Modal -->
+<div class="modal" id="feedback-modal">
+  <div class="modal-content">
+    <h3>Give Feedback</h3>
+    <div class="stars" id="stars">
+      <i class="fa-solid fa-star"></i>
+      <i class="fa-solid fa-star"></i>
+      <i class="fa-solid fa-star"></i>
+      <i class="fa-solid fa-star"></i>
+      <i class="fa-solid fa-star"></i>
+    </div>
+    <textarea id="feedback-text" rows="2" placeholder="Your feedback..."></textarea>
+    <button class="submit-btn" id="submit-feedback">Submit</button>
+  </div>
+</div>
+
+<script>
+// Prevent any anchor from appearing auto-selected/focused on page load while preserving keyboard accessibility.
+document.addEventListener('DOMContentLoaded', function () {
+  const active = document.activeElement;
+  if (active && active.tagName === 'A') {
+    // If an anchor is focused (e.g., from the editor or some platforms), move focus away safely.
+    active.blur();
+  }
+});
+// Sidebar toggle
+document.getElementById('menu-btn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('active');
+});
+
+// Carousel logic (can also be loaded from backend if needed)
+const carouselImgs = [
+  {src: 'assets/images/event1.jpeg', title: 'Celebrate Your Moments'},
+  {src: 'assets/images/event2.jpeg', title: 'Plan Your Dream Event'},
+  {src: 'assets/images/event3.jpeg', title: 'Create Memories That Last'},
+  {src: 'assets/images/event4.jpeg', title: 'From Birthday to Farewell'},
+  {src: 'assets/images/event5.jpeg', title: 'Make Every Detail Special'}
+];
+let current = 0;
+const imgEl = document.getElementById('carousel-img');
+const titleEl = document.getElementById('carousel-title');
+const dots = document.getElementById('carousel-dots');
+
+function renderDots() {
+  dots.innerHTML = carouselImgs.map((_, i) =>
+    `<div class="${i === current ? 'active' : ''}"></div>`).join('');
+}
+function nextSlide() {
+  current = (current + 1) % carouselImgs.length;
+  imgEl.style.opacity = 0;
+  setTimeout(() => {
+    imgEl.src = carouselImgs[current].src;
+    titleEl.textContent = carouselImgs[current].title;
+    imgEl.style.opacity = 1;
+    renderDots();
+  }, 400);
+}
+renderDots();
+setInterval(nextSlide, 4000);
+
+
+const apiBase = "http://localhost:5000/api";
+
+// 🔹 Default event list with icons
+const defaultEvents = [
+  { id: 1, title: "Birthday", icon: "assets/icons/cake.png" },
+  { id: 2, title: "Anniversary", icon: "assets/icons/wedding.png" },
+  { id: 3, title: "Meeting", icon: "assets/icons/discussion.png" },
+  { id: 4, title: "Graduation", icon: "assets/icons/graduation-hat-and-diploma.png" },
+  { id: 5, title: "Concert", icon: "assets/icons/singer.png" },
+  { id: 6, title: "Festivals", icon: "assets/icons/tent.png" },
+  { id: 7, title: "Charity", icon: "assets/icons/globe.png" },
+  { id: 8, title: "Reunion", icon: "assets/icons/users.png" },
+  { id: 9, title: "Farewell", icon: "assets/icons/waving-goodbye.png" },
+  { id: 10, title: "Marriage", icon: "assets/icons/bridal.png" },
+  { id: 11, title: "Engagement", icon: "assets/icons/engagement-ring.png" },
+  { id: 12, title: "Baby Shower", icon: "assets/icons/baby-shower.png" },
+  { id: 13, title: "College Events", icon: "assets/icons/calendar.png" },
+  { id: 14, title: "Customized...", icon: "assets/icons/catering.png" }
+];
+
+// 🔹 Load Events (Backend + Fallback)
+async function loadEvents() {
+  const grid = document.getElementById("event-grid");
+  grid.innerHTML = "<p>Loading events...</p>";
+
+  try {
+    const res = await fetch("http://localhost:5000/api/events");
+    const data = await res.json();
+
+    if (!data.success) {
+      grid.innerHTML = "<p>Failed to load events.</p>";
+      return;
+    }
+
+    grid.innerHTML = "";
+    data.events.forEach(ev => {
+      const card = document.createElement("div");
+      card.className = "event-card";
+      card.innerHTML = `
+        <img src="${ev.icon}" alt="${ev.title}">
+        <h3>${ev.title}</h3>
+      `;
+
+      // ✅ Call function on click
+      card.addEventListener("click", () => openEventPlans(ev.title));
+
+      grid.appendChild(card);
+    });
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    grid.innerHTML = "<p>Server connection error.</p>";
+  }
+}
+
+// ✅ Function moved outside
+async function openEventPlans(eventName) {
+  try {
+    const res = await fetch(`http://localhost:5000/api/event-id/${encodeURIComponent(eventName)}`);
+    const data = await res.json();
+
+    if (data.eventId) {
+      sessionStorage.setItem("eventName", eventName);
+      sessionStorage.setItem("eventId", data.eventId);
+      window.location.href = `plans.html?event=${encodeURIComponent(eventName)}`;
+    } else {
+      alert("⚠️ Event not found in database!");
+    }
+  } catch (err) {
+    console.error("Error fetching eventId:", err);
+    alert("❌ Failed to fetch event ID from server");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadEvents);
+
+// ---------------- Dynamic City Display (Database Only) ----------------
+document.addEventListener('DOMContentLoaded', async () => {
+  const cityDisplay = document.getElementById('city-display');
+
+  async function loadCities() {
+    try {
+      const res = await fetch('http://localhost:5000/api/get-city');
+      const data = await res.json();
+
+      if (data.success && data.city) {
+        cityDisplay.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${data.city}`;
+        sessionStorage.setItem('selectedCity', data.city); // optional cache
+      } else {
+        cityDisplay.innerHTML = `<i class="fa-solid fa-location-dot"></i> Select City`;
+      }
+    } catch (err) {
+      console.error('❌ Failed to load city:', err);
+      cityDisplay.innerHTML = `<i class="fa-solid fa-location-dot"></i> Select City`;
+    }
+  }
+
+  cityDisplay.addEventListener('click', () => {
+    window.location.href = 'citypage.html';
+  });
+
+  await loadCities();
+});
+
+
+// ---------------- Feedback Modal ----------------
+function openFeedback() {
+  document.getElementById('feedback-modal').style.display = 'flex';
+}
+
+document.getElementById('submit-feedback').addEventListener('click', async () => {
+  const feedback = document.getElementById('feedback-text').value.trim();
+  const rating = Array.from(document.querySelectorAll('#stars i.selected')).length;
+  if (!feedback) return alert('Please enter feedback');
+
+  try {
+    const res = await fetch('http://localhost:5000/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ feedback, rating })
+    });
+    const data = await res.json();
+    if(data.success){
+      alert('Feedback submitted!');
+      document.getElementById('feedback-modal').style.display = 'none';
+      document.getElementById('feedback-text').value = '';
+      document.querySelectorAll('#stars i').forEach(s => s.classList.remove('selected'));
+    }
+  } catch(err) {
+    console.error('Feedback submission failed:', err);
+  }
+});
+
+// Star rating selection
+const stars = document.querySelectorAll('#stars i');
+stars.forEach((star, idx) => {
+  star.addEventListener('click', () => {
+    stars.forEach((s, i) => s.classList.toggle('selected', i <= idx));
+  });
+});
+
+// Close modal when clicking outside
+window.onclick = e => {
+  if(e.target.id === 'feedback-modal') document.getElementById('feedback-modal').style.display = 'none';
+};
+
+// ---------------- Date Picker ----------------
+// ---------------- Date Picker ----------------
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const dateInput = document.getElementById("event-date");
+  const dateDisplay = document.getElementById("date-display");
+
+  // 1️⃣ Load existing date from backend
+  try {
+    const res = await fetch("http://localhost:5000/api/get-date");
+    const data = await res.json();
+
+    if (data.success && data.date) {
+      dateDisplay.innerHTML = `<i class="fa-solid fa-calendar-days"></i> ${data.date}`;
+      dateInput.value = data.date;
+    } else {
+      dateDisplay.innerHTML = `<i class="fa-solid fa-calendar-days"></i> No date selected`;
+    }
+  } catch (err) {
+    console.error("❌ Failed to load date:", err);
+    dateDisplay.innerHTML = `<i class="fa-solid fa-calendar-days"></i> Failed to load`;
+  }
+
+  // 2️⃣ When user clicks display, open date picker
+  dateDisplay.addEventListener("click", () => {
+    dateInput.showPicker();
+  });
+
+  // 3️⃣ When user selects new date, save to backend
+  dateInput.addEventListener("change", async (e) => {
+    const selectedDate = e.target.value;
+    if (!selectedDate) return;
+
+    try {
+      const res = await fetch("http://localhost:5000/api/save-date", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date: selectedDate }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        dateDisplay.innerHTML =
+          `<i class="fa-solid fa-calendar-days"></i> ${selectedDate}`;
+        alert("✅ Date saved successfully!");
+      } else {
+        alert(`❌ Failed to save date: ${data.message || 'Unknown error'}`);
+      }
+    } catch (err) {
+      console.error("❌ Error saving date:", err);
+    }
+  });
+});
+
+
+// ---------------- Dark Mode Toggle (Temporary, no localStorage) ----------------
+const themeToggle = document.getElementById("toggle-theme");
+
+// Initialize icon state
+themeToggle.classList.add("fa-moon");
+
+themeToggle.addEventListener("click", () => {
+  const isDark = document.body.classList.toggle("dark-mode");
+
+  // Also toggle any special section classes (optional)
+  const servingEl = document.getElementById('serving');
+  if (servingEl) servingEl.classList.toggle('dark-mode-serving');
+
+  // Toggle icon between moon and sun
+  if (isDark) {
+    themeToggle.classList.remove("fa-moon");
+    themeToggle.classList.add("fa-sun");
+  } else {
+    themeToggle.classList.remove("fa-sun");
+    themeToggle.classList.add("fa-moon");
+  }
+});
+
+</script>
+
+ 
+
+
+
+<!-- Serving In Cities Grid Section -->
+<section style="max-width:1000px; margin:40px auto 0 auto; text-align:left;">
+  <h1 style="font-size:2.4rem; font-weight:700; margin-bottom:8px;" id="serving">Serving In</h1>
+  <div style="font-size:1.2rem; color: #666; margin-bottom:32px;">20 cities and counting</div>
+  <div style="
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(120px,1fr));
+      gap:38px 10px;
+      background: #ffffff;
+      padding: 30px 20px 30px 20px;
+      border-radius: 18px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);">
+    <!-- Example City: Replace `src` with your own icons -->
+    <div style="text-align:center;">
+      <img src="assets/icons/gate.png" style="height:54px;" alt="Delhi">
+      <div style="margin-top:10px; font-weight:600;">Delhi</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/skyscrapers.png" style="height:54px;" alt="Gurugram">
+      <div style="margin-top:10px; font-weight:600;">Gurugram</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/building.png" style="height:54px;" alt="Noida">
+      <div style="margin-top:10px; font-weight:600;">Noida</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/temple.png" style="height:54px;" alt="Faridabad">
+      <div style="margin-top:10px; font-weight:600;">Faridabad</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="assets/icons/buildings.png" style="height:54px;" alt="Ghaziabad">
+      <div style="margin-top:10px; font-weight:600;">Ghaziabad</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/castle.png" style="height:54px;" alt="Greater Noida">
+      <div style="margin-top:10px; font-weight:600;">Greater Noida</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/monument.png" style="height:54px;" alt="Bengaluru">
+      <div style="margin-top:10px; font-weight:600;">Bengaluru</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="assets/icons/monument.png" style="height:54px;" alt="Hyderabad">
+      <div style="margin-top:10px; font-weight:600;">Hyderabad</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/gateway-of-india.png" style="height:54px;" alt="Mumbai">
+      <div style="margin-top:10px; font-weight:600;">Mumbai</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/gateway-of-india.png" style="height:54px;" alt="Navi Mumbai">
+      <div style="margin-top:10px; font-weight:600;">Navi Mumbai</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/city.png" style="height:54px;" alt="Thane">
+      <div style="margin-top:10px; font-weight:600;">Thane</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/palace.png" style="height:54px;" alt="Pune">
+      <div style="margin-top:10px; font-weight:600;">Pune</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="assets/icons/building.png" style="height:54px;" alt="Kolkata">
+      <div style="margin-top:10px; font-weight:600;">Kolkata</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/palace.png" style="height:54px;" alt="Jaipur">
+      <div style="margin-top:10px; font-weight:600;">Jaipur</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="assets/icons/landmark.png" style="height:54px;" alt="Ahmedabad">
+      <div style="margin-top:10px; font-weight:600;">Ahmedabad</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/temple.png" style="height:54px;" alt="Vadodara">
+      <div style="margin-top:10px; font-weight:600;">Vadodara</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/city.png" style="height:54px;" alt="Surat">
+      <div style="margin-top:10px; font-weight:600;">Surat</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/monument.png" style="height:54px;" alt="Chandigarh">
+      <div style="margin-top:10px; font-weight:600;">Chandigarh</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="assets/icons/monument (1).png" style="height:54px;" alt="Chennai">
+      <div style="margin-top:10px; font-weight:600;">Chennai</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/building.png" style="height:54px;" alt="Indore">
+      <div style="margin-top:10px; font-weight:600;">Indore</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/island.png" style="height:54px;" alt="Panaji">
+      <div style="margin-top:10px; font-weight:600;">Panaji</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/monument.png" style="height:54px;" alt="Lucknow">
+      <div style="margin-top:10px; font-weight:600;">Lucknow</div>
+    </div>
+    <div style="text-align:center;">
+      <img src="https://img.icons8.com/ios/70/000000/map-marker.png" style="height:54px;" alt="Other City">
+      <div style="margin-top:10px; font-weight:600;">Other City</div>
+    </div>
+  </div>
+  <div style="clear:both;"></div>
+</section>
+<!-- Footer -->
+<footer>
+  <div class="contact">
+    <div><i class="fa-solid fa-phone"></i><span>020-456-7890</span></div>
+    <div><i class="fa-brands fa-whatsapp"></i><span>+91-9652620716</span></div>
+    <div><i class="fa-brands fa-instagram"></i><span>@events_z</span></div>
+    <div><i class="fa-brands fa-telegram"></i><span>@events_z</span></div>
+  </div>
+</footer>
+<!-- Extra Footer Start-->
+<div style="background: #212121; color: #fff; padding: 30px 0 0 0; font-size:14px;">
+  <div style="max-width:1200px; margin:auto;display:flex;flex-wrap:wrap;justify-content:space-between; border-bottom:1px solid #555; padding-bottom:32px;">
+    <div>
+  <h4 style="margin-bottom:12px;">ABOUT</h4>
+  <!-- Use a relative path instead of an absolute Windows path so the link behaves normally in browsers -->
+  <div style="margin-bottom:8px;" class="links"><a href="contactsupportpage.html" class="contact-us" target="_self" rel="noopener">Contact Us</a></div>
+      <div style="margin-bottom:8px;" class="links"><a href="contactsupportpage.html" class="aboutpage" target="_blank" rel="noopener"> About Us </div>
+      <div style="margin-bottom:8px;">Careers</div>
+    </div>
+    
+    <div>
+      <h4 style="margin-bottom:12px;" >HELP</h4>
+      <div style="margin-bottom:8px;" class="links"><a href="C:\Users\chinn\Desktop\Event website\Even'Z\message_chatpage.html" class="contact-us" target="_blank" rel="noopener">Chat With Us</a></div>
+      <div style="margin-bottom:8px;">Payments</div>
+      <div style="margin-bottom:8px;">Cancellation & Returns</div>
+      <div class="links"><a href="C:\Users\chinn\Desktop\Event website\Even'Z\faq_helppage.html" class="contact-us" target="_blank" rel="noopener">FAQ</a></div>
+    </div>
+    <div>
+      <h4 style="margin-bottom:12px;">CONSUMER POLICY</h4>
+      <div style="margin-bottom:8px;">Cancellation & Returns</div>
+      <div style="margin-bottom:8px;">Terms Of Use</div>
+      <div style="margin-bottom:8px;">Security</div>
+      <div style="margin-bottom:8px;">Privacy</div>
+      <div style="margin-bottom:8px;">Sitemap</div>
+    </div>
+    <div style="min-width:200px;">
+      <h4 style="margin-bottom:12px;">Mail Us:</h4>
+      <div>EVENT ZONE Internet Private Limited,<br>
+         RGUKT ONGOLE Buildings  &<br>
+        PERNAMETTA  Village,<br>
+        ONGOLE, 523225,<br>
+        PRAKASAM, India<BR>
+      
+        CIN : U74999AP2017SGC105613<br>
+        Telephone: 
+        <a href="tel:044-45614700" style="color: #ffeb3b;">9963635236</a> / 
+        <a href="tel:044-67415800" style="color: #ffeb3b;">8919250166</a>
+      </div>
+    </div>
+    <div>
+      <h4 style="margin-bottom:12px;">Social</h4>
+      <div style="display:flex;gap:8px;">
+        <span><i class="fa-brands fa-facebook" style="font-size:22px;"></i></span>
+        <span><i class="fa-brands fa-twitter" style="font-size:22px;"></i></span>
+        <span><i class="fa-brands fa-youtube" style="font-size:22px;"></i></span>
+        <span><i class="fa-brands fa-instagram" style="font-size:22px;"></i></span>
+      </div>
+    </div>
+  </div>
+  <div style="max-width:1200px; margin:auto; padding:18px 0 0 0;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;">
+    <div>
+      <span style="margin-right:20px;">Become a Seller</span>
+      <span style="margin-right:20px;">Advertise</span>
+      <span style="margin-right:20px;">Gift Cards</span>
+      <span style="margin-right:20px;">Help Center</span>
+     
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" style="height:22px;">
+      <img src="https://img.icons8.com/color/48/000000/mastercard.png" alt="Mastercard" style="height:22px;">
+      <img src="https://img.icons8.com/color/48/000000/rupay.png" alt="Rupay" style="height:22px;">
+      <img src="https://img.icons8.com/color/48/000000/amex.png" alt="Amex" style="height:22px;">
+      <img src="https://img.icons8.com/color/48/000000/discover.png" alt="Discover" style="height:22px;">
+      <img src="https://img.icons8.com/color/48/000000/diners-club.png" alt="Diners Club" style="height:22px;">
+      <img src="https://img.icons8.com/color/48/000000/paypal.png" alt="PayPal" style="height:22px;">
+      <img src="https://img.icons8.com/color/48/000000/apple-pay.png" alt="Apple Pay" style="height:22px;">
+      <img src="https://img.icons8.com/color/48/000000/phonepe.png" alt="PhonePe" style="height:22px;">
+    </div>
+  </div>
+</div>
+
+</script>
+</body>
+</html>
+

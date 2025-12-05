@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Zone | Event Agreement</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* 🌌 Purple Neon Theme */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top left, #1a002b, #0d0019 80%);
+  margin: 0;
+  padding: 0;
+  color: #e6e0ff;
+}
+
+/* Header */
+header {
+  background: linear-gradient(90deg, #6a00ff, #8b33ff);
+  padding: 20px 40px;
+  text-align: center;
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 0 25px #8b33ff;
+  position: relative;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px #b580ff;
+}
+
+/* Back Button */
+.back-btn {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 2px solid #e3baff;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+  box-shadow: 0 0 10px rgba(195, 137, 255, 0.5);
+}
+.back-btn:hover {
+  background: #b580ff;
+  color: #0d0019;
+  box-shadow: 0 0 20px #b580ff;
+}
+
+/* Main Container */
+.container {
+  max-width: 950px;
+  margin: 40px auto;
+  background: rgba(40, 0, 60, 0.8);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(155, 77, 255, 0.4);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(180, 100, 255, 0.3);
+}
+
+/* Headings */
+h2 {
+  color: #cba0ff;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 0 15px #9b47ff;
+}
+
+/* Event Summary Box */
+.event-summary {
+  background: rgba(110, 0, 200, 0.15);
+  border-left: 4px solid #a557ff;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 10px rgba(155, 77, 255, 0.4);
+}
+.event-summary p {
+  margin: 5px 0;
+  font-weight: 500;
+  color: #e8d8ff;
+}
+
+/* Accordion Buttons */
+.accordion {
+  background: linear-gradient(90deg, #6a00ff, #8b33ff);
+  color: #fff;
+  cursor: pointer;
+  padding: 12px 20px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 1rem;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  transition: 0.3s;
+  box-shadow: 0 0 15px rgba(165, 77, 255, 0.5);
+}
+.accordion:hover {
+  background: #b580ff;
+  box-shadow: 0 0 25px #b580ff;
+  color: #0d0019;
+}
+
+/* Accordion Panels */
+.panel {
+  padding: 0 20px;
+  display: none;
+  background-color: rgba(100, 0, 160, 0.2);
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  color: #e5daff;
+  box-shadow: inset 0 0 15px rgba(165, 77, 255, 0.3);
+}
+
+/* Checkbox Section */
+.checkbox-section {
+  margin: 20px 0;
+  color: #e6d7ff;
+}
+.checkbox-section label {
+  display: block;
+  margin: 10px 0;
+  font-weight: 500;
+}
+input[type="checkbox"] {
+  accent-color: #a557ff;
+  transform: scale(1.2);
+  margin-right: 10px;
+}
+
+/* Buttons */
+button {
+  background: linear-gradient(90deg, #6a00ff, #8b33ff);
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+  display: block;
+  margin: 15px auto 0;
+  box-shadow: 0 0 15px rgba(155, 77, 255, 0.5);
+}
+button:disabled {
+  background: #5a5a5a;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+button:hover:not(:disabled) {
+  background: #b580ff;
+  color: #0d0019;
+  box-shadow: 0 0 25px #c08cff;
+}
+</style>
+</head>
+
+<!-- rest of your HTML and JS stays exactly the same -->
+
+<body>
+
+<header>
+  <button class="back-btn" id="backBtn"><i class="fa fa-arrow-left"></i> Back</button>
+  Event Zone | Event Agreement
+</header>
+
+<div class="container">
+  <h2>Event Confirmation Agreement</h2>
+
+  <div class="event-summary">
+    <p><strong>Booking ID:</strong> <span id="bookingID">—</span></p>
+    <p><strong>Event Type:</strong> <span id="summaryEventType">—</span></p>
+    <p><strong>Date:</strong> <span id="summaryEventDate">—</span></p>
+    <p><strong>Name:</strong> <span id="summaryName">—</span></p>
+    <p><strong>Email:</strong> <span id="summaryEmail">—</span></p>
+    <p><strong>Agreement Date:</strong> <span id="agreementDate"></span></p>
+  </div>
+
+  <!-- Terms -->
+  <button class="accordion">1. Payment Terms</button>
+  <div class="panel"><p>A 30% deposit is required to confirm booking. Full payment due 3 days before event.</p></div>
+
+  <button class="accordion">2. Cancellation & Refund Policy</button>
+  <div class="panel"><p>Refunds: 50% if cancelled >7 days before, none if ≤7 days.</p></div>
+
+  <button class="accordion">3. Event Details Accuracy</button>
+  <div class="panel"><p>Ensure details are correct; changes must be informed 3 days before event.</p></div>
+
+  <button class="accordion">4. Liability & Force Majeure</button>
+  <div class="panel"><p>We are not liable for unforeseen circumstances or natural disasters.</p></div>
+
+  <div class="checkbox-section">
+    <label><input type="checkbox" id="agreeAll"> I have read and agree to all terms.</label>
+  </div>
+
+  <button id="confirmBtn" disabled>Proceed to Checkout</button>
+  <button id="printBtn">Print / Download Agreement</button>
+</div>
+
+<script>
+const apiBase = "http://localhost:5000/api";
+
+// 🔙 Back button
+document.getElementById("backBtn").addEventListener("click", () => window.history.back());
+
+// 🔽 Accordion toggle
+document.querySelectorAll(".accordion").forEach(acc => {
+  acc.addEventListener("click", () => {
+    const panel = acc.nextElementSibling;
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+  });
+});
+
+// ✅ Enable confirm when checked
+document.getElementById("agreeAll").addEventListener("change", e => {
+  document.getElementById("confirmBtn").disabled = !e.target.checked;
+});
+
+// 📦 Load booking data
+window.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(window.location.search);
+  const bookingId = params.get("bookingId");
+
+  if (!bookingId) {
+    alert("❌ No booking ID found in URL!");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${apiBase}/bookings/details/${bookingId}`)
+    const data = await res.json();
+
+    if (!data.success || !data.booking) {
+      alert("⚠️ Booking not found in database!");
+      return;
+    }
+
+    const b = data.booking;
+    document.getElementById("bookingID").innerText = b.BOOKING_ID;
+    document.getElementById("summaryEventType").innerText = b.EVENT_NAME;
+    document.getElementById("summaryEventDate").innerText = b.BOOKING_DATE;
+    document.getElementById("summaryName").innerText = b.USER_NAME;
+    document.getElementById("summaryEmail").innerText = b.USER_EMAIL;
+    document.getElementById("agreementDate").innerText = new Date().toLocaleDateString();
+  } catch (err) {
+    console.error(err);
+    alert("❌ Server error while fetching booking details.");
+  }
+});
+
+document.getElementById("confirmBtn").addEventListener("click", async () => {
+  const bookingId = document.getElementById("bookingID").innerText;
+
+  if (!confirm("Do you confirm and agree to the terms for this booking?")) return;
+
+  try {
+    const res = await fetch(`${apiBase}/bookings/${bookingId}/agree`, { method: "PUT" });
+    const data = await res.json();
+
+    if (data.success) {
+      alert("✅ Agreement confirmed! Redirecting to checkout...");
+      window.location.href = `checkoutpage.html?bookingId=${bookingId}`;
+    } else {
+      alert("⚠️ Failed to update agreement status.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("❌ Server error while confirming agreement.");
+  }
+});
+
+// 🖨️ Print or download
+document.getElementById("printBtn").addEventListener("click", () => window.print());
+</script>
+
+</body>
+</html>
+

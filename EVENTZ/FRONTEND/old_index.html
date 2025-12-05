@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Even'Z | Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top left, #1a001f, #090011);
+      color: #e6e6ff;
+      min-height: 100vh;
+    }
+
+    header {
+      background: rgba(80, 0, 120, 0.7);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 25px #a020f0;
+      border-bottom: 1px solid rgba(160, 32, 240, 0.3);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      text-shadow: 0 0 15px #b84dff, 0 0 30px #9b00ff;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      color: #e6ccff;
+      margin: 0 12px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #c44dff, 0 0 20px #a020f0;
+    }
+
+    nav a.active {
+      color: #fff;
+      text-shadow: 0 0 8px #b84dff, 0 0 15px #7a00ff;
+      font-weight: 600;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(135deg, #32004a, #5b0094);
+      color: #fff;
+      border-bottom-left-radius: 80px;
+      border-bottom-right-radius: 80px;
+      box-shadow: 0 0 40px #a020f0;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 15px #c44dff;
+      animation: glowText 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowText {
+      from { text-shadow: 0 0 10px #a020f0, 0 0 20px #9b00ff; }
+      to { text-shadow: 0 0 25px #d580ff, 0 0 50px #b700ff; }
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      color: #f0dfff;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(45deg, #b700ff, #6a00ff);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+      box-shadow: 0 0 15px rgba(183,0,255,0.5);
+    }
+
+    .btn:hover {
+      background: linear-gradient(45deg, #d000ff, #8000ff);
+      box-shadow: 0 0 25px #d580ff, 0 0 45px #a020f0;
+    }
+
+    .highlights {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: rgba(50, 0, 70, 0.85);
+      border: 1px solid #a020f0;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(160, 32, 240, 0.4);
+      padding: 20px;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 35px rgba(200, 80, 255, 0.7);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #d580ff;
+      text-shadow: 0 0 10px #b84dff;
+    }
+
+    .card p {
+      color: #ddd;
+      line-height: 1.6;
+      margin-top: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #2a003d;
+      color: #d1a8ff;
+      margin-top: 50px;
+      box-shadow: 0 0 20px #a020f0;
+      border-top: 1px solid rgba(160, 32, 240, 0.3);
+    }
+
+    .back-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: linear-gradient(45deg, #9b00ff, #6a00ff);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+      box-shadow: 0 0 20px #a020f0;
+    }
+
+    .back-btn:hover {
+      background: linear-gradient(45deg, #c44dff, #a020f0);
+      box-shadow: 0 0 30px #d580ff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌌 Even'Z Event Management</h1>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="events.html">Events</a>
+      <a href="add-event.html">Add Event</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Plan. Manage. Celebrate.</h2>
+    <p>Explore breathtaking events and make memories shine bright!</p>
+    <a href="events.html" class="btn">View Events</a>
+  </section>
+
+  <section class="highlights">
+    <div class="card">
+      <h3>🎤 Neon Beats Festival</h3>
+      <p>Dance under the electric lights with top DJs and neon vibes all night long.</p>
+      <p><strong>Date:</strong> Dec 15, 2025</p>
+      <p><strong>Location:</strong> Goa</p>
+    </div>
+
+    <div class="card">
+      <h3>🚀 Tech Expo 2025</h3>
+      <p>Witness futuristic innovations, startups, and tech showcases glowing in style.</p>
+      <p><strong>Date:</strong> Nov 22, 2025</p>
+      <p><strong>Location:</strong> Hyderabad</p>
+    </div>
+
+    <div class="card">
+      <h3>🎭 Cultural Night</h3>
+      <p>Celebrate art, music, and colors in a mesmerizing neon-themed cultural event.</p>
+      <p><strong>Date:</strong> Jan 10, 2026</p>
+      <p><strong>Location:</strong> Delhi</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Even'Z | Powered by Neon Dreams 💜</p>
+  </footer>
+
+  <button class="back-btn" onclick="window.location.href='mainpage.html'">⬅ Back</button>
+</body>
+</html>
+

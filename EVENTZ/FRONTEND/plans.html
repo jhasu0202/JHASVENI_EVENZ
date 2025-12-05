@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Choose Your Plan</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fdfbff, #f3f7ff);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px;
+    }
+    h1 {
+      font-size: 2.4rem;
+      color: #333;
+      margin-bottom: 40px;
+      text-align: center;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    .back-btn {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      background: #6c5ce7;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .back-btn:hover {
+      background: #5a4bd9;
+      transform: scale(1.05);
+    }
+    .plans-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: center;
+    }
+    .plan-box {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+      padding: 30px 25px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .plan-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+    .plan-btn {
+      border: none;
+      font-size: 22px;
+      font-weight: 700;
+      padding: 14px 60px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      color: white;
+    }
+    .lite .plan-btn { background: #62c8ff; }
+    .elite .plan-btn { background: #ff85b3; }
+    .enlight .plan-btn { background: #ffd84b; color: #4a3800; }
+    .lite .plan-btn:hover { background: #42b8f5; }
+    .elite .plan-btn:hover { background: #ff6a9e; }
+    .enlight .plan-btn:hover { background: #ffcc00; }
+    .price {
+      font-size: 1.9rem;
+      color: #333;
+      margin: 20px 0;
+      font-weight: 700;
+    }
+    ul {
+      text-align: left;
+      margin-top: 20px;
+      list-style-type: disc;
+      color: #333;
+      font-size: 16px;
+      padding-left: 25px;
+      min-height: 130px;
+    }
+    li { margin-bottom: 10px; }
+    .book-btn {
+      margin-top: 20px;
+      background: #333;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .book-btn:hover {
+      background: #000;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <button class="back-btn" onclick="goBack()">⬅ Back</button>
+  <h1 id="pageTitle">Choose Your Plan</h1>
+  <div class="plans-container" id="plansContainer">Loading plans...</div>
+
+  <script>
+    const apiBase = "http://localhost:5000/api";
+    const userId = sessionStorage.getItem("userId") || 1;
+
+    const params = new URLSearchParams(window.location.search);
+    const selectedEvent = params.get("event") || sessionStorage.getItem("eventName") || "Event";
+
+    document.getElementById("pageTitle").textContent = `${selectedEvent} Plans`;
+
+    let eventId = sessionStorage.getItem("eventId");
+
+    // ✅ Fetch event ID (if not found in sessionStorage)
+async function ensureEventId(eventName) {
+  if (!eventId) {
+    try {
+      const res = await fetch(`${apiBase}/event-id/${encodeURIComponent(eventName)}`);
+      const data = await res.json();
+      
+      // The backend should handle the logic, so we trust the result:
+      if (data.success && data.eventId) {
+        eventId = data.eventId;
+        sessionStorage.setItem("eventId", eventId);
+        console.log("✅ Event ID fetched:", eventId);
+      } else {
+        alert(`⚠️ Event not found for "${eventName}".`);
+      }
+    } catch (err) {
+      console.error("Error fetching event ID:", err);
+      // alert("⚠️ Error communicating with server for event ID."); // Add this for better UX
+    }
+  }
+  return eventId;
+}
+// 🌟 Enhanced Event Plans for 14 Event Types
+const eventPlans = {
+  "Birthday": [
+    {
+      name: "Lite",
+      price: 2999,
+      features: [
+        "Basic balloon & banner setup",
+        "Cake table decoration",
+        "2-hour management support",
+        "Soft music setup",
+        "Free digital invite design"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 5999,
+      features: [
+        "Themed decoration & lights",
+        "Photobooth with props",
+        "Cake cutting stage",
+        "DJ or curated playlist",
+        "Event coordinator"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 9999,
+      features: [
+        "Custom theme setup",
+        "Professional DJ & sound system",
+        "Photographer & videographer",
+        "LED backdrop design",
+        "Full-day management team"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Marriage": [
+    {
+      name: "Lite",
+      price: 125000,
+      features: [
+        "Simple mandap setup",
+        "Basic floral decor",
+        "Seating arrangement",
+        "Sound setup for rituals",
+        "On-site assistant"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 300000,
+      features: [
+        "Stage & entrance decor",
+        "Live traditional music",
+        "LED backdrop screen",
+        "Catering coordination",
+        "Event supervisor"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 500000,
+      features: [
+        "Royal theme decoration",
+        "Drone & video coverage",
+        "DJ, fireworks & dance floor",
+        "Luxury floral setup",
+        "Dedicated event manager"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Anniversary": [
+    {
+      name: "Lite",
+      price: 39999,
+      features: [
+        "Romantic decor setup",
+        "Candlelight arrangement",
+        "Cake table & flowers",
+        "2-hour assistance",
+        "Background music"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 69999,
+      features: [
+        "Theme-based decor",
+        "Live music or DJ",
+        "Dinner table setup",
+        "Custom photo backdrop",
+        "Host coordination"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 99999,
+      features: [
+        "Couple stage & LED screen",
+        "DJ + MC hosting",
+        "Luxury catering setup",
+        "Professional photo & video",
+        "After-party management"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Customized...": [
+    {
+      name: "Lite",
+      price: 99999,
+      features: [
+        "Partial theme customization",
+        "Basic setup & props",
+        "Music system",
+        "Staff assistance",
+        "Invitation design support"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 249999,
+      features: [
+        "Custom theme selection",
+        "Lighting & decor setup",
+        "Catering management",
+        "Professional host",
+        "DJ or music support"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 499999,
+      features: [
+        "Fully customized decor",
+        "Sound, light & stage",
+        "Photo + video coverage",
+        "Design consultation",
+        "Full event management"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Baby Shower": [
+    {
+      name: "Lite",
+      price: 15999,
+      features: [
+        "Soft pastel theme decor",
+        "Cake table setup",
+        "Welcome board",
+        "2-hour support staff",
+        "Light music setup"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 29999,
+      features: [
+        "Boy/Girl theme decor",
+        "Customized photobooth",
+        "Catering assistance",
+        "Music & lighting",
+        "Game host"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 49999,
+      features: [
+        "Fully custom theme setup",
+        "DJ & sound system",
+        "Photography + video shoot",
+        "Games & giveaways",
+        "Dedicated event team"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Engagement": [
+    {
+      name: "Lite",
+      price: 49999,
+      features: [
+        "Stage decor for ring exchange",
+        "Backdrop setup",
+        "Lighting system",
+        "1 coordinator",
+        "2-hour support"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 99999,
+      features: [
+        "Custom theme setup",
+        "Sound & light combo",
+        "Catering management",
+        "Host & MC support",
+        "Photography corner"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 149999,
+      features: [
+        "Grand engagement theme",
+        "LED screen + DJ",
+        "Drone & video coverage",
+        "Decor team + event manager",
+        "Guest coordination"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "College Events": [
+    {
+      name: "Lite",
+      price: 299999,
+      features: [
+        "Stage & banner setup",
+        "Sound system",
+        "Lighting system",
+        "Mic & podium",
+        "2-hour management"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 499999,
+      features: [
+        "Theme-based stage design",
+        "Professional DJ & lights",
+        "Host coordination",
+        "Photo booth setup",
+        "Backstage crew"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 799999,
+      features: [
+        "Full cultural event setup",
+        "Photography & video shoot",
+        "Sound & lighting engineer",
+        "Stage + crowd management",
+        "Full-day supervision"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Meeting": [
+    {
+      name: "Lite",
+      price: 4999,
+      features: [
+        "Basic seating setup",
+        "Mic & speaker system",
+        "Podium & projector",
+        "2-hour assistance",
+        "Name tags & signage"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 9999,
+      features: [
+        "Conference hall decor",
+        "Tech support & A/V setup",
+        "Refreshments corner",
+        "Agenda printing",
+        "Professional coordinator"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 14999,
+      features: [
+        "Full conference management",
+        "Multi-screen projection",
+        "Catering setup",
+        "Live recording option",
+        "Dedicated event manager"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Graduation": [
+    {
+      name: "Lite",
+      price: 4999,
+      features: [
+        "Stage & banner setup",
+        "Basic seating arrangement",
+        "Mic system",
+        "Backdrop with logo",
+        "2-hour event support"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 8999,
+      features: [
+        "Themed decor",
+        "Photo & video coverage",
+        "Sound & light system",
+        "Host & crowd coordination",
+        "Refreshment area"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 13999,
+      features: [
+        "Grand ceremony setup",
+        "Full coverage team",
+        "Custom theme design",
+        "DJ + celebration zone",
+        "Full-day coordination"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Concert": [
+    {
+      name: "Lite",
+      price: 19999,
+      features: [
+        "Stage setup with sound",
+        "Basic lighting rig",
+        "Crew for setup",
+        "2 speakers & mics",
+        "Security at gate"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 39999,
+      features: [
+        "Advanced sound system",
+        "Stage barricades & crew",
+        "Security staff",
+        "LED visuals",
+        "Artist coordination"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 69999,
+      features: [
+        "Mega stage with truss",
+        "Full lighting & laser effects",
+        "Technical crew & security",
+        "Drone video + backstage team",
+        "Special effects (CO₂ & fireworks)"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Festivals": [
+    {
+      name: "Lite",
+      price: 9999,
+      features: [
+        "Stage setup & lighting",
+        "Basic decoration",
+        "Sound system",
+        "Staff support",
+        "Banner & poster design"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 19999,
+      features: [
+        "Cultural theme setup",
+        "Music & DJ system",
+        "Anchor or host",
+        "Catering & crowd control",
+        "Lighting engineer"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 29999,
+      features: [
+        "Grand festival setup",
+        "Professional sound & visuals",
+        "Security + staff team",
+        "Drone coverage",
+        "Full-day event handling"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Charity": [
+    {
+      name: "Lite",
+      price: 2999,
+      features: [
+        "Stage & mic setup",
+        "Basic banner decor",
+        "Donation box setup",
+        "Music system",
+        "On-site assistant"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 4999,
+      features: [
+        "Theme decor",
+        "Sound & lighting",
+        "Photography setup",
+        "Catering arrangement",
+        "Host coordination"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 7999,
+      features: [
+        "Full event setup",
+        "Media & photo coverage",
+        "Custom theme banners",
+        "Event team management",
+        "Live stream option"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Reunion": [
+    {
+      name: "Lite",
+      price: 3999,
+      features: [
+        "Banner & decor setup",
+        "Music system",
+        "Basic seating",
+        "Memory wall poster",
+        "2-hour support staff"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 6999,
+      features: [
+        "Themed backdrop",
+        "Photo booth setup",
+        "Dinner table decor",
+        "Host & DJ",
+        "Lighting setup"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 9999,
+      features: [
+        "Full reunion theme",
+        "DJ night & lights",
+        "Professional photography",
+        "Games & entertainment",
+        "Full event team"
+      ],
+      style: "enlight"
+    }
+  ],
+
+  "Farewell": [
+    {
+      name: "Lite",
+      price: 29999,
+      features: [
+        "Stage backdrop decor",
+        "Basic lighting setup",
+        "Music system",
+        "Banner & mic setup",
+        "2-hour event support"
+      ],
+      style: "lite"
+    },
+    {
+      name: "Elite",
+      price: 59999,
+      features: [
+        "DJ & lighting system",
+        "Photo booth zone",
+        "Catering coordination",
+        "Host/MC service",
+        "Customized theme"
+      ],
+      style: "elite"
+    },
+    {
+      name: "Enlight",
+      price: 99999,
+      features: [
+        "Full farewell theme setup",
+        "DJ night & light show",
+        "Dinner & stage decor",
+        "Professional photo + video",
+        "Event management team"
+      ],
+      style: "enlight"
+    }
+  ]
+};
+
+    function renderPlans(plans) {
+      const container = document.getElementById("plansContainer");
+      container.innerHTML = "";
+      plans.forEach(plan => {
+        const box = document.createElement("div");
+        box.className = `plan-box ${plan.style}`;
+        box.innerHTML = `
+          <button class="plan-btn">${plan.name}</button>
+          <ul>${plan.features.map(f => `<li>${f}</li>`).join("")}</ul>
+          <div class="price">₹${plan.price.toLocaleString()}</div>
+          <button class="book-btn" onclick="bookPlan('${plan.name}', ${plan.price}, this)">Book Now</button>
+        `;
+        container.appendChild(box);
+      });
+    }
+
+    async function bookPlan(planName, price, btn) {
+      try {
+        const guests = prompt("Enter number of guests:");
+        if (!guests || isNaN(guests)) return alert("Please enter a valid number of guests.");
+
+        // ✅ Ensure eventId before booking
+        const id = await ensureEventId(selectedEvent);
+if (!userId || !id) return alert("Missing user or event information!");
+
+
+        btn.disabled = true;
+        btn.textContent = "Booking...";
+
+        const body = { userId, eventId: id, eventName: selectedEvent, plan: planName, guests: parseInt(guests), price };
+
+        const res = await fetch(`${apiBase}/bookings`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          alert("✅ Booking successful!");
+          sessionStorage.setItem("lastBookedPlan", planName);
+          setTimeout(() => window.location.href = `cartpage.html?userId=${userId}`, 1000);
+        } else {
+          alert(`❌ Failed: ${data.message || "Something went wrong"}`);
+          btn.disabled = false;
+          btn.textContent = "Book Now";
+        }
+      } catch (err) {
+        console.error("Booking error:", err);
+        alert("⚠️ Server error while booking.");
+        btn.disabled = false;
+        btn.textContent = "Book Now";
+      }
+    }
+
+    function goBack() { window.location.href = "mainpage.html"; }
+
+    // ✅ Initialize
+    (async () => {
+      await ensureEventId(selectedEvent);
+      renderPlans(eventPlans[selectedEvent] || defaultPlans);
+    })();
+  </script>
+</body>
+</html>
+

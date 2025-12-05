@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat with Coordinators | Even'Z</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* 💜 Purple Neon Theme */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top left, #10001f, #0b0012 70%);
+  margin: 0;
+  color: #f0eaff;
+  overflow: hidden;
+}
+
+header {
+  background: linear-gradient(90deg, #7a00ff, #b300ff);
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 0 25px #b300ff;
+  position: relative;
+  text-shadow: 0 0 10px #ff66ff;
+}
+
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 8px 15px;
+  background: #1a0026;
+  color: #d47bff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 0 12px #b300ff;
+  transition: 0.3s;
+}
+.back-btn:hover {
+  background: #b300ff;
+  color: #fff;
+  box-shadow: 0 0 18px #d47bff;
+}
+
+.container {
+  display: flex;
+  height: 600px;
+  max-width: 1100px;
+  margin: 50px auto;
+  background: rgba(25, 0, 50, 0.85);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(180, 0, 255, 0.4);
+  border: 1px solid rgba(180, 0, 255, 0.3);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 30%;
+  background: rgba(50, 0, 100, 0.7);
+  border-right: 2px solid #b300ff;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: inset 0 0 10px #7a00ff;
+}
+.sidebar h3 {
+  color: #d47bff;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #b300ff;
+}
+.coordinator-card {
+  background: rgba(20, 0, 40, 0.9);
+  border: 1px solid #b300ff;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: #d9caff;
+  box-shadow: 0 0 10px rgba(180, 0, 255, 0.2);
+}
+.coordinator-card:hover {
+  background: rgba(100, 0, 200, 0.5);
+  box-shadow: 0 0 15px #d47bff;
+}
+.coordinator-card.active {
+  background: linear-gradient(90deg, #7a00ff, #b300ff);
+  color: #fff;
+  box-shadow: 0 0 20px #d47bff;
+}
+
+/* Chat Area */
+.chat-area {
+  width: 70%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.chat-header {
+  font-weight: 700;
+  color: #d47bff;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #b300ff;
+  padding-bottom: 10px;
+  text-shadow: 0 0 10px #b300ff;
+}
+
+.chat-messages {
+  flex: 1;
+  margin: 20px 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #b300ff #1a001f;
+}
+
+/* Scrollbar styling */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: #b300ff;
+  border-radius: 5px;
+}
+
+.message {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  margin-bottom: 12px;
+  clear: both;
+  line-height: 1.5;
+  box-shadow: 0 0 10px rgba(180, 0, 255, 0.2);
+}
+
+.message.user {
+  background: linear-gradient(90deg, #7a00ff, #b300ff);
+  color: #fff;
+  float: right;
+  border-bottom-right-radius: 0;
+  text-shadow: 0 0 5px #fff;
+}
+.message.coordinator {
+  background: rgba(60, 0, 100, 0.8);
+  float: left;
+  border-bottom-left-radius: 0;
+  color: #f2e8ff;
+  border: 1px solid rgba(180, 0, 255, 0.3);
+}
+.message small {
+  display: block;
+  font-size: 0.7rem;
+  margin-top: 5px;
+  color: #c7a6ff;
+}
+
+/* Input */
+.chat-input {
+  display: flex;
+  gap: 10px;
+}
+.chat-input input {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 25px;
+  border: 1px solid #b300ff;
+  background: rgba(25, 0, 50, 0.9);
+  color: #fff;
+  outline: none;
+  font-size: 1rem;
+  box-shadow: 0 0 10px rgba(180, 0, 255, 0.2);
+  transition: 0.3s;
+}
+.chat-input input:focus {
+  box-shadow: 0 0 15px #d47bff;
+  border-color: #d47bff;
+}
+
+.chat-input button {
+  background: linear-gradient(90deg, #7a00ff, #b300ff);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 15px #b300ff;
+}
+.chat-input button:hover {
+  background: #d47bff;
+  box-shadow: 0 0 25px #ff80ff;
+}
+
+@media(max-width:900px){
+  .container { flex-direction: column; height: auto; }
+  .sidebar, .chat-area { width: 100%; }
+  .chat-messages { max-height: 300px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="mainpage.html" class="back-btn">←</a>
+  Event Zone | Chat with Coordinators
+</header>
+
+<div class="container">
+  <div class="sidebar">
+    <h3>Coordinators</h3>
+    <div class="coordinator-card active" onclick="selectCoordinator(0)">Ramesh Sharma</div>
+    <div class="coordinator-card" onclick="selectCoordinator(1)">Sita Verma</div>
+    <div class="coordinator-card" onclick="selectCoordinator(2)">Anil Kapoor</div>
+  </div>
+
+  <div class="chat-area">
+    <div class="chat-header" id="chatHeader">Ramesh Sharma</div>
+    <div class="chat-messages" id="chatMessages">
+      <!-- Messages appear here -->
+    </div>
+    <div class="chat-input">
+      <input type="text" id="messageInput" placeholder="Type your message...">
+      <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i> Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentCoordinator = 0;
+
+// Render chat messages from backend
+async function renderChat() {
+  const messagesDiv = document.getElementById('chatMessages');
+  messagesDiv.innerHTML = '';
+  
+  try {
+    const res = await fetch(`http://localhost:5000/api/chat/${currentCoordinator}`);
+    const data = await res.json();
+    if(data.success) {
+      data.messages.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = 'message ' + msg.sender;
+        div.innerHTML = `<span>${msg.message}</span><br><small>${new Date(msg.timestamp).toLocaleTimeString()}</small>`;
+        messagesDiv.appendChild(div);
+      });
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+  } catch (err) {
+    console.error('Failed to fetch chat:', err);
+  }
+}
+
+// Select a coordinator
+function selectCoordinator(index){
+  currentCoordinator = index;
+  document.querySelectorAll('.coordinator-card').forEach((c,i)=>{
+    c.classList.toggle('active', i===index);
+  });
+  document.getElementById('chatHeader').innerText = document.querySelectorAll('.coordinator-card')[index].innerText;
+  renderChat();
+}
+
+// Send message
+async function sendMessage() {
+  const input = document.getElementById('messageInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  try {
+    const res = await fetch(`http://localhost:5000/api/chat/${currentCoordinator}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sender: 'user', message: text })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      // 🕐 Wait 700ms to ensure the auto-reply is saved before fetching
+      setTimeout(() => {
+        renderChat(); // Refresh the chat
+      }, 700);
+    } else {
+      console.error("Message send failed:", data.message);
+    }
+
+    input.value = '';
+  } catch (err) {
+    console.error('Failed to send message:', err);
+  }
+}
+
+// Send message on Enter key
+document.getElementById('messageInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendMessage();
+});
+
+// Auto-refresh chat every 3 seconds
+setInterval(renderChat, 3000);
+
+// Initial render
+renderChat();
+</script>
+
+</body>
+</html>
+

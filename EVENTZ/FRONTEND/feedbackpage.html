@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Zone | Feedback & Suggestions</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top left, #1a0026, #090013);
+  color: #e5e1ff;
+  overflow-x: hidden;
+}
+
+/* Header */
+header {
+  background: linear-gradient(90deg, #6b00b6, #8b00ff);
+  color: #fff;
+  padding: 20px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(139, 0, 255, 0.6);
+  text-align: center;
+  position: relative;
+  text-shadow: 0 0 10px #c77dff;
+}
+
+/* Back Button */
+#backBtn {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+#backBtn:hover {
+  color: #ff66ff;
+  text-shadow: 0 0 10px #ff66ff;
+}
+
+/* Main Container */
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  background: rgba(35, 0, 60, 0.85);
+  border-radius: 15px;
+  padding: 35px;
+  box-shadow: 0 0 25px rgba(155, 0, 255, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+/* Heading */
+h2 {
+  text-align: center;
+  color: #d7b0ff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 15px #a84fff;
+}
+
+/* Paragraph */
+p {
+  text-align: center;
+  color: #bca6ff;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+/* Rating */
+.rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+.rating i {
+  font-size: 2.2rem;
+  color: #3a005c;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.2s, text-shadow 0.3s;
+}
+.rating i:hover,
+.rating i.active {
+  color: #d87eff;
+  transform: scale(1.25);
+  text-shadow: 0 0 20px #c77dff;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+label {
+  font-weight: 600;
+  color: #e2c6ff;
+}
+input, textarea {
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 2px solid #b266ff;
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  font-size: 1rem;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+input:focus, textarea:focus {
+  border-color: #e0aaff;
+  box-shadow: 0 0 10px #b266ff;
+  outline: none;
+}
+textarea {
+  resize: none;
+  height: 120px;
+}
+
+/* Button */
+button {
+  background: linear-gradient(90deg, #8a00ff, #b833ff);
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+  align-self: flex-start;
+  box-shadow: 0 0 15px rgba(170, 0, 255, 0.5);
+}
+button:hover {
+  background: linear-gradient(90deg, #b833ff, #d47bff);
+  box-shadow: 0 0 25px rgba(200, 100, 255, 0.7);
+}
+
+/* Success Message */
+.success-message {
+  background: rgba(200, 255, 200, 0.1);
+  color: #c8ffc8;
+  border: 1px solid #aaffaa;
+  padding: 10px;
+  border-radius: 8px;
+  display: none;
+  margin-top: 10px;
+  text-align: center;
+  box-shadow: 0 0 10px #6fff9b;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .rating i {
+    font-size: 1.7rem;
+  }
+  .container {
+    margin: 30px 15px;
+    padding: 25px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <button id="backBtn"><i class="fa-solid fa-arrow-left"></i></button>
+  Event Zone | Feedback & Suggestions
+</header>
+
+<div class="container">
+  <h2>Your Opinion Matters to Us!</h2>
+  <p>We value your feedback and suggestions. Help us improve your future event experiences by sharing your thoughts below.</p>
+
+  <div class="rating" id="rating">
+    <i class="fa-solid fa-star" data-value="1"></i>
+    <i class="fa-solid fa-star" data-value="2"></i>
+    <i class="fa-solid fa-star" data-value="3"></i>
+    <i class="fa-solid fa-star" data-value="4"></i>
+    <i class="fa-solid fa-star" data-value="5"></i>
+  </div>
+
+  <form id="feedbackForm">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" placeholder="Enter your name" required>
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email" placeholder="Enter your email" required>
+
+    <label for="feedback">Your Feedback or Suggestions</label>
+    <textarea id="feedback" placeholder="Share your thoughts..." required></textarea>
+
+    <button type="submit"><i class="fa-solid fa-paper-plane"></i> Submit Feedback</button>
+
+    <div class="success-message" id="successMessage">
+      🌟 Thank you for your valuable feedback! We’ll use it to make your next event even better.
+    </div>
+  </form>
+</div>
+
+<script>
+// Star Rating Logic
+const stars = document.querySelectorAll('.rating i');
+let ratingValue = 0;
+
+stars.forEach(star => {
+  star.addEventListener('click', () => {
+    ratingValue = parseInt(star.getAttribute('data-value'));
+    stars.forEach(s => s.classList.remove('active'));
+    for (let i = 0; i < ratingValue; i++) {
+      stars[i].classList.add('active');
+    }
+  });
+});
+
+// Form Submission to backend
+const form = document.getElementById('feedbackForm');
+const successMessage = document.getElementById('successMessage');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (ratingValue === 0) {
+    alert("Please select a rating before submitting!");
+    return;
+  }
+
+  const feedbackData = {
+    name: document.getElementById('name').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    rating: ratingValue,
+    message: document.getElementById('feedback').value.trim(),
+  };
+
+  try {
+    const response = await fetch("http://localhost:5000/api/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(feedbackData),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      successMessage.style.display = 'block';
+      form.reset();
+      stars.forEach(s => s.classList.remove('active'));
+      ratingValue = 0;
+
+      setTimeout(() => { successMessage.style.display = 'none'; }, 4000);
+    } else {
+      alert(result.message);
+    }
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
+    alert("Something went wrong. Please try again later.");
+  }
+});
+
+// Back button functionality
+document.getElementById('backBtn').addEventListener('click', () => {
+  window.location.href = 'mainpage.html';
+});
+</script>
+
+</body>
+</html>

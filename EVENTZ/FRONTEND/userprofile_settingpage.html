@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Zone | User Profile & Settings</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* 🌌 Purple Neon Theme */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top left, #1b0028, #10001a 60%);
+  color: #e4d7ff;
+  min-height: 100vh;
+}
+
+/* Header */
+header {
+  background: linear-gradient(90deg, #7a00ff, #a400ff);
+  color: #fff;
+  padding: 20px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 25px #a400ff;
+  text-shadow: 0 0 10px #ff4fff;
+}
+
+/* Back button */
+#backBtn {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#backBtn:hover {
+  color: #ff4fff;
+  text-shadow: 0 0 10px #ff4fff;
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 0 25px rgba(160, 60, 255, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+/* Titles */
+h2 {
+  text-align: center;
+  color: #c98aff;
+  margin-bottom: 25px;
+  text-shadow: 0 0 10px #b44fff;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 35px;
+  border-left: 5px solid #b44fff;
+  background: rgba(186, 85, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(186, 85, 255, 0.3);
+}
+.section h3 {
+  color: #d4a1ff;
+  margin-bottom: 15px;
+  text-shadow: 0 0 8px #9d5eff;
+}
+
+/* Input fields */
+label {
+  display: block;
+  margin: 8px 0 5px;
+  font-weight: 600;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #b44fff;
+  border-radius: 8px;
+  outline: none;
+  background: #1a0027;
+  color: #fff;
+  font-size: 1rem;
+  box-shadow: 0 0 10px rgba(180, 79, 255, 0.3);
+  transition: 0.3s;
+}
+input:focus {
+  border-color: #ff4fff;
+  box-shadow: 0 0 15px #ff4fff;
+}
+
+/* Buttons */
+button {
+  background: linear-gradient(90deg, #7a00ff, #b44fff);
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto 0;
+  box-shadow: 0 0 15px #b44fff;
+  transition: 0.3s;
+}
+button:hover {
+  background: linear-gradient(90deg, #9d00ff, #ff4fff);
+  box-shadow: 0 0 25px #ff4fff;
+}
+
+/* Logout */
+.logout-btn {
+  background: linear-gradient(90deg, #5b5b5b, #2c2c2c);
+  box-shadow: 0 0 15px #222;
+}
+.logout-btn:hover {
+  background: linear-gradient(90deg, #8a00c8, #400080);
+  box-shadow: 0 0 25px #b44fff;
+}
+
+/* Success Message */
+.success-message {
+  background: rgba(140, 255, 190, 0.1);
+  color: #76ffb5;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 15px;
+  border: 1px solid #76ffb5;
+  display: none;
+}
+
+/* Profile section */
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+.profile-header img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid #b44fff;
+  box-shadow: 0 0 20px #b44fff;
+}
+.change-photo {
+  color: #ffb8ff;
+  cursor: pointer;
+  text-decoration: underline;
+  text-shadow: 0 0 8px #b44fff;
+}
+.change-photo:hover {
+  color: #fff;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <button id="backBtn"><i class="fa-solid fa-arrow-left"></i></button>
+  Event Zone | User Profile & Settings
+</header>
+
+<div class="container">
+  <h2>Manage Your Profile</h2>
+
+  <div class="profile-header">
+    <img id="profilePic" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Picture">
+    <div>
+      <label for="uploadPic" class="change-photo"><i class="fa-solid fa-camera"></i> Change Photo</label>
+      <input type="file" id="uploadPic" accept="image/*" style="display:none;">
+    </div>
+  </div>
+
+  <div class="section">
+    <h3><i class="fa-solid fa-user"></i> Personal Information</h3>
+    <label>Full Name</label>
+    <input type="text" id="name">
+    <label>Email Address</label>
+    <input type="email" id="email">
+    <label>Phone Number</label>
+    <input type="text" id="phone">
+  </div>
+
+  <div class="section">
+    <h3><i class="fa-solid fa-lock"></i> Change Password</h3>
+    <label>Current Password</label>
+    <input type="password" id="currentPass">
+    <label>New Password</label>
+    <input type="password" id="newPass">
+    <label>Confirm New Password</label>
+    <input type="password" id="confirmPass">
+  </div>
+
+  <button id="saveBtn"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+  <button class="logout-btn" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+  <div class="success-message" id="successMessage"></div>
+</div>
+
+<script>
+const apiBase = "http://localhost:5000/api";
+
+// ✅ Get current user directly from backend session
+async function loadUser() {
+  const res = await fetch(`${apiBase}/current-user`);
+  const data = await res.json();
+  console.log("Fetched current user:", data);
+  if (!data.success) {
+    alert("Not logged in!");
+    window.location.href = "Loginpage.html";
+    return;
+  }
+
+  const u = data.user;
+  document.getElementById('name').value = u.FULLNAME || "";
+  document.getElementById('email').value = u.EMAIL || "";
+  document.getElementById('phone').value = u.PHONE || "";
+  if (u.PROFILEPIC) document.getElementById('profilePic').src = u.PROFILEPIC;
+}
+loadUser();
+
+// ✅ Save updated info
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const fullName = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+
+  const res = await fetch(`${apiBase}/update-profile`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fullName, email, phone })
+  });
+
+  const data = await res.json();
+  const msg = document.getElementById('successMessage');
+  if (data.success) {
+    msg.textContent = "✅ Profile updated successfully!";
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 3000);
+  } else {
+    msg.textContent = "❌ " + data.message;
+    msg.style.display = 'block';
+  }
+});
+
+// ✅ Logout clears session
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  try {
+    const res = await fetch(`${apiBase}/logout`, {
+      method: "POST",
+      credentials: "include", // 👈 very important for sessions
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("Logged out successfully!");
+      window.location.href = "Loginpage.html";
+    } else {
+      alert("Logout failed: " + data.message);
+    }
+  } catch (err) {
+    console.error("Logout error:", err);
+    alert("Something went wrong while logging out.");
+  }
+});
+
+// Back button
+document.getElementById('backBtn').addEventListener('click', () => {
+  window.location.href = "mainpage.html";
+});
+</script>
+</body>
+</html>
+

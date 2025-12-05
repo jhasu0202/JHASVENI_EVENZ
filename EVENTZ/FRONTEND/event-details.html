@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Details</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: Arial, sans-serif; background: #fff7f0; margin: 0; }
+    header { background: #ff7a00; color: #fff; padding: 20px; text-align: center; }
+    nav a { color: #fff; margin: 0 10px; text-decoration: none; }
+    section.content { max-width: 700px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .btn { display: inline-block; background: #ff7a00; color: #fff; padding: 10px 20px; border-radius: 25px; text-decoration: none; transition: 0.3s; }
+    .btn:hover { background: #ff9233; }
+    footer { text-align: center; padding: 20px; background: #ff7a00; color: #fff; margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎉 Event Management</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="events.html">Events</a>
+      <a href="add-event.html">Add Event</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="content">
+    <h2 id="eventName">Loading...</h2>
+    <p><strong>Date:</strong> <span id="eventDate"></span></p>
+    <p><strong>Location:</strong> <span id="eventLocation"></span></p>
+    <p><strong>Description:</strong></p>
+    <p id="eventDescription"></p>
+    <a href="events.html" class="btn">← Back to Events</a>
+  </section>
+
+  <footer>
+    <p>© 2025 Event Management | All Rights Reserved</p>
+  </footer>
+
+  <script>
+  async function loadEventDetails() {
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get('id');
+    if (!eventId) {
+      document.querySelector('.content').innerHTML = "<p>⚠️ No event selected.</p>";
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:3000/api/events/${eventId}`);
+      const data = await res.json();
+
+      if (data.success) {
+        const e = data.event;
+        document.getElementById('eventName').textContent = e.name;
+        document.getElementById('eventDate').textContent = e.date;
+        document.getElementById('eventLocation').textContent = e.location;
+        document.getElementById('eventDescription').textContent = e.description;
+      } else {
+        document.querySelector('.content').innerHTML = "<p>❌ Event not found.</p>";
+      }
+    } catch (err) {
+      console.error(err);
+      document.querySelector('.content').innerHTML = "<p>Server error loading event details.</p>";
+    }
+  }
+
+  loadEventDetails();
+  </script>
+</body>
+</html>
+

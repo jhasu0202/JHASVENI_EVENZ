@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Zone | Select City</title>
+
+<!-- Fonts & Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #9b00ff;
+  --secondary: #c44dff;
+  --accent: #a020f0;
+  --bg: radial-gradient(circle at top left, #1a001f, #090011);
+  --text: #e6e6ff;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  margin: 0;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  background: rgba(80, 0, 120, 0.7);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 10px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  box-shadow: 0 0 25px var(--accent);
+  text-shadow: 0 0 12px var(--secondary);
+}
+header img {
+  height: 40px;
+  margin-right: 10px;
+  filter: drop-shadow(0 0 8px var(--accent));
+}
+
+/* CONTAINER */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 25px;
+  background: rgba(50, 0, 80, 0.85);
+  border-radius: 20px;
+  box-shadow: 0 0 35px rgba(160, 32, 240, 0.4);
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.container h2 {
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: var(--secondary);
+  text-shadow: 0 0 10px var(--accent);
+}
+
+/* SEARCH */
+#searchInput {
+  width: 80%;
+  padding: 12px 15px;
+  margin-bottom: 25px;
+  border-radius: 25px;
+  border: 1px solid var(--accent);
+  font-size: 1rem;
+  background: rgba(20, 0, 40, 0.8);
+  color: var(--text);
+  transition: 0.3s;
+}
+#searchInput:focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 12px var(--secondary);
+}
+
+/* CITY GRID */
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 20px;
+}
+
+.city-card {
+  background: rgba(60, 0, 90, 0.9);
+  border-radius: 15px;
+  padding: 20px 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 15px rgba(160, 32, 240, 0.3);
+  border: 1px solid rgba(160, 32, 240, 0.3);
+  color: #e6ccff;
+}
+.city-card img {
+  height: 60px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+.city-card:hover {
+  transform: scale(1.05);
+  background: var(--secondary);
+  box-shadow: 0 0 25px var(--secondary);
+  color: #fff;
+}
+.selected {
+  background: var(--primary) !important;
+  color: #fff !important;
+  box-shadow: 0 0 30px var(--accent);
+}
+
+/* TOAST */
+#toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 25px;
+  display: none;
+  box-shadow: 0 0 20px var(--secondary);
+  font-weight: 600;
+  z-index: 999;
+  text-shadow: 0 0 8px var(--accent);
+}
+
+/* FOOTER BUTTONS */
+.footer {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+button.action-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 0 15px var(--accent);
+}
+button.action-btn:hover {
+  background: var(--secondary);
+  box-shadow: 0 0 25px var(--secondary);
+}
+button.action-btn:disabled {
+  background: #555;
+  color: #bbb;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* RESPONSIVE */
+@media(max-width: 600px) {
+  .city-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+  }
+  header { font-size: 1.3rem; }
+  #searchInput { width: 95%; }
+  .footer { flex-direction: column; gap: 15px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://cdn-icons-png.flaticon.com/512/3550/3550487.png" alt="Event Zone Logo">
+  Event Zone | Select City
+</header>
+
+<div class="container">
+  <h2>Select Your City in Andhra Pradesh</h2>
+  <input type="text" id="searchInput" placeholder="Search city...">
+  <div class="city-grid" id="cityGrid"></div>
+
+  <div class="footer">
+    <button class="action-btn" id="backBtn"><i class="fa-solid fa-arrow-left"></i> Back</button>
+    <button class="action-btn" id="continueBtn" disabled>Continue <i class="fa-solid fa-arrow-right"></i></button>
+  </div>
+</div>
+
+<div id="toast">City Selected!</div>
+
+<script>
+const cities = [
+  {name:"Vijayawada", icon:"https://img.icons8.com/ios-filled/70/000000/city.png"},
+  {name:"Visakhapatnam", icon:"https://img.icons8.com/ios-filled/70/000000/beach.png"},
+  {name:"Guntur", icon:"https://img.icons8.com/ios-filled/70/000000/monument.png"},
+  {name:"Nellore", icon:"https://img.icons8.com/ios-filled/70/000000/temple.png"},
+  {name:"Tirupati", icon:"https://img.icons8.com/ios-filled/70/000000/temple.png"},
+  {name:"Kurnool", icon:"https://img.icons8.com/ios-filled/70/000000/bridge.png"},
+  {name:"Rajahmundry", icon:"https://img.icons8.com/ios-filled/70/000000/soil.png"},
+  {name:"Kakinada", icon:"https://img.icons8.com/ios-filled/70/000000/city.png"},
+  {name:"Eluru", icon:"https://img.icons8.com/ios-filled/70/000000/building.png"},
+  {name:"Anantapur", icon:"https://img.icons8.com/ios-filled/70/000000/palace.png"}
+];
+
+const cityGrid = document.getElementById('cityGrid');
+let selectedCity = null;
+
+// ---------------- Render City Cards ----------------
+function renderCities(filter = "") {
+  cityGrid.innerHTML = "";
+  const filteredCities = cities.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
+
+  if (filteredCities.length === 0) {
+    cityGrid.innerHTML = `<p style="grid-column: 1 / -1; color: gray;">No cities found.</p>`;
+    return;
+  }
+
+  filteredCities.forEach(city => {
+    const div = document.createElement('div');
+    div.className = 'city-card';
+    div.innerHTML = `
+      <img src="${city.icon}" alt="${city.name}">
+      <div class="city-name">${city.name}</div>`;
+
+    div.addEventListener('click', () => {
+      document.querySelectorAll('.city-card').forEach(c => c.classList.remove('selected'));
+      div.classList.add('selected');
+      selectedCity = city.name;
+      document.getElementById('continueBtn').disabled = false;
+
+      const toast = document.getElementById('toast');
+      toast.textContent = `Selected: ${selectedCity}`;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 1500);
+    });
+
+    cityGrid.appendChild(div);
+  });
+}
+
+renderCities();
+
+// ---------------- Search Filter ----------------
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  renderCities(e.target.value);
+});
+
+// ---------------- Back Button ----------------
+document.getElementById('backBtn').addEventListener('click', () => {
+  window.history.back();
+});
+
+// ---------------- Continue Button (Save to Oracle DB) ----------------
+document.getElementById('continueBtn').addEventListener('click', async () => {
+  if (!selectedCity) return;
+
+  try {
+    const res = await fetch("http://localhost:5000/api/save-city", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ city: selectedCity }),
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      alert("✅ City saved successfully!");
+      window.location.href = "mainpage.html";
+    } else {
+      alert("❌ Failed to save city!");
+    }
+  } catch (err) {
+    console.error("❌ Error saving city:", err);
+  }
+});
+</script>
+
+</body>
+</html>
+

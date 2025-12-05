@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Zone | Notifications</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* 🌌 Purple Neon Theme */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #1a002b, #35004d, #5c00b8);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+
+header {
+  background: linear-gradient(90deg, #6a00ff, #c300ff);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 4px 20px rgba(195, 0, 255, 0.4);
+  position: relative;
+}
+
+.container {
+  max-width: 950px;
+  margin: 40px auto;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(255, 0, 255, 0.3);
+  position: relative;
+}
+
+h2 {
+  color: #d88bff;
+  text-align: center;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px #a855f7;
+}
+
+.badge {
+  background: #ff00ff;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  margin-left: 5px;
+  box-shadow: 0 0 8px #ff00ff;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0 25px 0;
+}
+
+.search-box input {
+  width: 70%;
+  padding: 10px 15px;
+  border: 2px solid #c300ff;
+  border-radius: 25px;
+  outline: none;
+  font-size: 0.95rem;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(195, 0, 255, 0.4);
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.tab {
+  background: rgba(195, 0, 255, 0.2);
+  border: 1px solid #c300ff;
+  padding: 8px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  color: #e3b7ff;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.tab.active, .tab:hover {
+  background: #c300ff;
+  color: #fff;
+  box-shadow: 0 0 10px #c300ff;
+}
+
+.notification {
+  display: flex;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.08);
+  border-left: 5px solid #c300ff;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: fadeIn 0.5s ease;
+}
+
+.notification:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(195, 0, 255, 0.4);
+}
+
+.icon {
+  font-size: 1.8rem;
+  color: #d88bff;
+  margin-right: 15px;
+  text-shadow: 0 0 10px #d88bff;
+}
+
+.content { flex: 1; }
+.content h3 { margin: 0; font-size: 1.1rem; color: #fff; }
+.content p { margin: 6px 0; color: #ccc; font-size: 0.95rem; line-height: 1.4; }
+.date { font-size: 0.85rem; color: #aaa; margin-top: 4px; }
+
+.unread {
+  border-left: 5px solid #ff00ff;
+  background: rgba(195, 0, 255, 0.15);
+  box-shadow: 0 0 10px #c300ff;
+}
+
+.buttons {
+  text-align: center;
+  margin-top: 25px;
+}
+
+button.action {
+  background: linear-gradient(90deg, #6a00ff, #c300ff);
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(195, 0, 255, 0.4);
+}
+
+button.action:hover {
+  background: linear-gradient(90deg, #b800ff, #ff00ff);
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
+  transform: scale(1.05);
+}
+
+#backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media(max-width:600px){
+  .container { padding: 20px; }
+  .notification { flex-direction: column; align-items: flex-start; }
+  .icon { margin-bottom: 10px; }
+}
+</style>
+</head>
+<body>
+
+<header>Event Zone | Notifications</header>
+
+<div class="container">
+  <h2>Recent Notifications <span class="badge" id="unreadCount">0</span></h2>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search notifications...">
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-filter="all">All</button>
+    <button class="tab" data-filter="unread">Unread</button>
+    <button class="tab" data-filter="system">System</button>
+    <button class="tab" data-filter="event">Event</button>
+  </div>
+
+  <!-- Notification Items -->
+  <div id="notificationsContainer"></div>
+
+  <div class="buttons">
+    <button class="action" id="markReadBtn"><i class="fa-solid fa-check-double"></i> Mark All as Read</button>
+    <button class="action" id="clearAllBtn"><i class="fa-solid fa-trash"></i> Clear All</button>
+  </div>
+</div>
+
+<div style="text-align:center; margin:20px 0;">
+  <button class="action" id="backBtn"><i class="fa-solid fa-arrow-left"></i> Back to Main Page</button>
+</div>
+
+<script>
+const username = "john_doe"; // Replace with logged-in username
+const notificationsContainer = document.getElementById('notificationsContainer');
+const unreadCount = document.getElementById('unreadCount');
+const tabs = document.querySelectorAll('.tab');
+const searchInput = document.getElementById('searchInput');
+
+// Fetch notifications from backend
+async function fetchNotifications() {
+  const res = await fetch(`/api/notifications/${username}`);
+  const data = await res.json();
+  if(data.success){
+    renderNotifications(data.notifications);
+  }
+}
+
+// Render notifications dynamically
+function renderNotifications(notifications) {
+  notificationsContainer.innerHTML = "";
+  notifications.forEach(n => {
+    const div = document.createElement('div');
+    div.className = `notification ${!n.is_read ? "unread" : ""}`;
+    div.dataset.type = n.type;
+    div.innerHTML = `
+      <div class="icon"><i class="fa-solid ${n.type==='system'?'fa-file-contract':'fa-calendar-check'}"></i></div>
+      <div class="content">
+        <h3>${n.title}</h3>
+        <p>${n.message}</p>
+        <div class="date"><i class="fa-regular fa-clock"></i> ${new Date(n.created_at).toLocaleString()}</div>
+      </div>`;
+    notificationsContainer.appendChild(div);
+  });
+  updateUnreadCount();
+}
+
+// Update unread count badge
+function updateUnreadCount(){
+  const count = document.querySelectorAll('.notification.unread').length;
+  unreadCount.textContent = count;
+}
+
+// Tabs filtering
+tabs.forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    tabs.forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter=tab.dataset.filter;
+
+    document.querySelectorAll('.notification').forEach(n=>{
+      if(filter==='all'||(filter==='unread' && n.classList.contains('unread')) || n.dataset.type===filter){
+        n.style.display='flex';
+      } else n.style.display='none';
+    });
+  });
+});
+
+// Search
+searchInput.addEventListener('input', ()=>{
+  const term = searchInput.value.toLowerCase();
+  document.querySelectorAll('.notification').forEach(n=>{
+    n.style.display = n.textContent.toLowerCase().includes(term) ? 'flex' : 'none';
+  });
+});
+
+// Mark all as read
+document.getElementById('markReadBtn').addEventListener('click', async ()=>{
+  await fetch('/api/notifications/mark-read', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username})});
+  document.querySelectorAll('.notification').forEach(n=>n.classList.remove('unread'));
+  updateUnreadCount();
+});
+
+// Clear all
+document.getElementById('clearAllBtn').addEventListener('click', async ()=>{
+  if(confirm("Are you sure you want to clear all notifications?")){
+    await fetch('/api/notifications/clear-all', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username})});
+    notificationsContainer.innerHTML='';
+    updateUnreadCount();
+  }
+});
+
+document.getElementById('backBtn').addEventListener('click', () => {
+    window.location.href = 'mainpage.html';
+});
+
+// Initial fetch
+fetchNotifications();
+</script>
+
+</body>
+</html>
+

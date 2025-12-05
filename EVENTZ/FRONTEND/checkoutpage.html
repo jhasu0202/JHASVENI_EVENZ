@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Zone | Checkout</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* 💜 Purple Neon Glow Theme */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top left, #1a002b, #0d0019 80%);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #e6e0ff;
+}
+
+/* Header */
+header {
+  background: linear-gradient(90deg, #6a00ff, #8b33ff);
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 0 25px #8b33ff;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px #b580ff;
+}
+
+/* Checkout Container */
+.checkout-container {
+  max-width: 600px;
+  width: 90%;
+  margin: 40px auto;
+  background: rgba(40, 0, 60, 0.8);
+  border-radius: 18px;
+  box-shadow: 0 0 25px rgba(155, 77, 255, 0.4);
+  padding: 30px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(180, 100, 255, 0.3);
+}
+
+/* Checkout Item */
+.checkout-item {
+  background: rgba(120, 0, 200, 0.15);
+  border-radius: 15px;
+  padding: 25px 20px;
+  margin-bottom: 25px;
+  box-shadow: inset 0 0 15px rgba(165, 77, 255, 0.4);
+  border: 1px solid rgba(180, 100, 255, 0.3);
+}
+
+h2 {
+  color: #cba0ff;
+  margin-bottom: 20px;
+  text-shadow: 0 0 15px #9b47ff;
+}
+
+.item-detail {
+  font-size: 1.1rem;
+  margin: 8px 0;
+  color: #e6d7ff;
+}
+
+.price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #b580ff;
+  margin: 15px 0;
+  text-shadow: 0 0 10px #b580ff;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #a57be9;
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+/* Coupon Section */
+.coupon-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.coupon-container input {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 2px solid #a557ff;
+  outline: none;
+  font-size: 1rem;
+  background: rgba(255,255,255,0.08);
+  color: #e8d8ff;
+  box-shadow: 0 0 10px rgba(165, 77, 255, 0.3);
+}
+
+.coupon-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #6a00ff, #8b33ff);
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+  box-shadow: 0 0 15px rgba(165, 77, 255, 0.4);
+}
+
+.coupon-container button:hover {
+  background: #b580ff;
+  color: #0d0019;
+  box-shadow: 0 0 25px #b580ff;
+}
+
+/* Buttons */
+.btn {
+  background: linear-gradient(90deg, #6a00ff, #8b33ff);
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 8px;
+  transition: 0.3s;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 0 15px rgba(155, 77, 255, 0.5);
+}
+
+.btn:hover {
+  background: #b580ff;
+  color: #0d0019;
+  box-shadow: 0 0 25px #c08cff;
+}
+
+.no-cart {
+  font-size: 1.1rem;
+  color: #d5c4ff;
+  margin: 30px 0;
+}
+
+/* Confirmation Card */
+.confirmation-card {
+  background: rgba(40, 0, 60, 0.85);
+  border-radius: 20px;
+  padding: 40px 30px;
+  box-shadow: 0 0 25px rgba(165, 77, 255, 0.4);
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+  border: 1px solid rgba(180, 100, 255, 0.3);
+}
+
+.confirmation-card i {
+  font-size: 4rem;
+  color: #a557ff;
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px #c08cff;
+}
+
+.confirmation-card h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #cba0ff;
+  text-shadow: 0 0 10px #a557ff;
+}
+
+.confirmation-card p {
+  font-size: 1.2rem;
+  color: #e6d7ff;
+  margin-bottom: 15px;
+}
+
+.status {
+  font-weight: 700;
+  color: #b580ff;
+  text-shadow: 0 0 10px #c08cff;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0; transform: translateY(-20px);}
+  100% {opacity: 1; transform: translateY(0);}
+}
+
+@media(max-width:600px) {
+  .checkout-container { width: 95%; }
+  .confirmation-card { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>Event Zone | Checkout</header>
+
+<div class="checkout-container" id="checkoutContainer">
+  <h2>Checkout</h2>
+  <div id="checkoutContent"></div>
+</div>
+
+<script>
+const apiBase = "http://localhost:5000/api";
+const checkoutContent = document.getElementById("checkoutContent");
+const urlParams = new URLSearchParams(window.location.search);
+const bookingId = urlParams.get("bookingId");
+
+let discountedPrice = 0;
+let bookingData = null;
+
+if (!bookingId) {
+  checkoutContent.innerHTML = `<div class="no-cart">Invalid booking. Please return to the main page.</div>
+                               <a href="mainpage.html" class="btn">← Back to Main Page</a>`;
+} else {
+  loadBookingDetails();
+}
+
+// ✅ Load booking details from backend
+function loadBookingDetails() {
+  fetch(`${apiBase}/bookings/${bookingId}`, { credentials: "include" })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.success || !data.booking) {
+        checkoutContent.innerHTML = `<div class="no-cart">Booking not found.</div>
+                                     <a href="mainpage.html" class="btn">← Back to Main Page</a>`;
+        return;
+      }
+
+      bookingData = data.booking;
+      discountedPrice = parseFloat(bookingData.PRICE || 0);
+
+      checkoutContent.innerHTML = `
+        <div class="checkout-item">
+          <div class="item-detail"><strong>Event:</strong> ${bookingData.EVENT_NAME}</div>
+          <div class="item-detail"><strong>Plan:</strong> ${bookingData.PLAN}</div>
+          <div class="item-detail"><strong>User:</strong> ${bookingData.USER_NAME || "N/A"}</div>
+          <div class="item-detail"><strong>Email:</strong> ${bookingData.USER_EMAIL || "N/A"}</div>
+          <div class="item-detail"><strong>Status:</strong> ${bookingData.STATUS || "Pending"}</div>
+          <div class="price">₹${discountedPrice.toLocaleString()}</div>
+
+          <div class="coupon-container" id="couponContainer">
+            <input type="text" id="couponInput" placeholder="Enter coupon code">
+            <button onclick="applyCoupon()">Apply</button>
+          </div>
+
+          <button class="btn" onclick="confirmPayment()">Confirm Payment</button>
+        </div>
+        <a href="mainpage.html" class="btn">← Back to Main Page</a>
+      `;
+    })
+    .catch(err => {
+      console.error("❌ Error fetching booking:", err);
+      checkoutContent.innerHTML = `<div class="no-cart">Error fetching booking details.</div>`;
+    });
+}
+
+// ✅ Apply coupon discount
+function applyCoupon() {
+  const coupon = document.getElementById("couponInput").value.trim().toUpperCase();
+  const couponContainer = document.getElementById("couponContainer");
+
+  if (coupon === "EVENT10") {
+    discountedPrice = Math.round(discountedPrice * 0.9);
+    couponContainer.style.display = "none";
+  } else if (!coupon) {
+    alert("⚠️ Please enter a coupon code.");
+    return;
+  } else {
+    alert("❌ Invalid coupon code.");
+    return;
+  }
+
+  const priceDiv = checkoutContent.querySelector(".price");
+  priceDiv.innerHTML = `<span class="original-price">₹${parseFloat(bookingData.PRICE).toLocaleString()}</span> ₹${discountedPrice.toLocaleString()}`;
+}
+
+// ✅ Confirm payment and update status in backend
+function confirmPayment() {
+  const couponCode = document.getElementById("couponInput")?.value.trim() || "";
+
+  fetch(`${apiBase}/pay-booking`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      id: bookingId,
+      price: discountedPrice,
+      coupon: couponCode
+    }),
+    credentials: "include"
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.success) {
+        alert("❌ Payment failed: " + data.message);
+        return;
+      }
+
+      checkoutContent.innerHTML = `
+        <div class="confirmation-card">
+          <i class="fa-solid fa-circle-check"></i>
+          <h2>Booking Confirmed!</h2>
+          <p>Your booking for <strong>${bookingData.EVENT_NAME}</strong> (${bookingData.PLAN}) is successfully confirmed.</p>
+          <p>Total Paid: <strong>₹${discountedPrice.toLocaleString()}</strong></p>
+          ${couponCode ? `<p>Coupon Applied: <strong>${couponCode}</strong></p>` : ""}
+          <p class="status">Status: Paid</p>
+          <div>
+            <button class="btn" onclick="goToMain()">🏠 Go to Main Page</button>
+            <button class="btn" onclick="goToReceipt()">📄 View Receipt</button>
+          </div>
+        </div>
+      `;
+    })
+    .catch(err => {
+      console.error("❌ Server error:", err);
+      alert("Server error. Please try again later.");
+    });
+}
+
+// ✅ Navigation
+function goToMain() { window.location.href = "mainpage.html"; }
+function goToReceipt() { window.location.href = "receiptpage.html?bookingId=" + bookingId; }
+</script>
+
+</body>
+</html>
+

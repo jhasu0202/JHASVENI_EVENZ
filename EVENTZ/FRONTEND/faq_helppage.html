@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Zone | FAQ & Help</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Base Page */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top left, #1a0026, #090013);
+      margin: 0;
+      padding: 0;
+      color: #e4d9ff;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(90deg, #6b00b6, #9a00ff);
+      color: #fff;
+      padding: 20px;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 25px rgba(155, 0, 255, 0.6);
+      text-shadow: 0 0 12px #d17fff;
+    }
+
+    /* Back Button */
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #e7b3ff;
+      padding: 8px 15px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(230, 200, 255, 0.2);
+      transition: all 0.3s;
+      box-shadow: 0 0 10px rgba(150, 0, 255, 0.4);
+    }
+    .back-btn:hover {
+      background: #b833ff;
+      color: #fff;
+      box-shadow: 0 0 20px #b833ff;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgba(35, 0, 60, 0.85);
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(160, 0, 255, 0.4);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Headings */
+    h2 {
+      color: #d8b4ff;
+      text-align: center;
+      margin-bottom: 25px;
+      text-shadow: 0 0 15px #a84fff;
+    }
+
+    h3 {
+      color: #d0a6ff;
+      text-shadow: 0 0 10px #9b5bff;
+    }
+
+    /* FAQ Items */
+    .faq-item {
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(180, 100, 255, 0.2);
+      padding-bottom: 12px;
+      transition: all 0.3s;
+    }
+
+    .faq-item:hover {
+      background: rgba(180, 100, 255, 0.05);
+      box-shadow: 0 0 10px rgba(180, 100, 255, 0.1);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .faq-question {
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #e8d5ff;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+
+    .faq-question:hover {
+      color: #d87eff;
+      text-shadow: 0 0 10px #d87eff;
+    }
+
+    .faq-answer {
+      display: none;
+      margin-top: 8px;
+      color: #c8aaff;
+      line-height: 1.6;
+      padding-left: 5px;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Help Section */
+    .help-section {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 25px;
+      border-top: 2px solid rgba(190, 100, 255, 0.3);
+    }
+
+    .help-section p {
+      color: #c6aaff;
+    }
+
+    /* Help Button */
+    .help-btn {
+      background: linear-gradient(90deg, #8a00ff, #b833ff);
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 600;
+      box-shadow: 0 0 20px rgba(160, 0, 255, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .help-btn:hover {
+      background: linear-gradient(90deg, #b833ff, #d47bff);
+      box-shadow: 0 0 30px rgba(200, 100, 255, 0.8);
+      transform: scale(1.05);
+    }
+
+    @media(max-width:600px){
+      .container { padding: 25px; margin: 25px 15px; }
+      header { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  Event Zone | FAQ & Help
+  <a href="mainpage.html" class="back-btn">← Back</a>
+</header>
+
+<div class="container">
+  <h2>Frequently Asked Questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-question">
+      <span>How do I book an event?</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-answer">
+      You can visit the Events page, select an event you like, choose your plan (Standard, Premium, or VIP), and confirm your booking.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">
+      <span>Can I cancel my booking?</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-answer">
+      Yes, you can cancel your booking up to 24 hours before the event. Refunds will be processed within 3–5 business days.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">
+      <span>How can I view my receipts?</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-answer">
+      Go to your Profile and click on the Receipts tab to see all your past payments and bookings.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">
+      <span>What payment methods are supported?</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <div class="faq-answer">
+      We support credit/debit cards, UPI, and PayPal for quick and secure transactions.
+    </div>
+  </div>
+
+  <div class="help-section">
+    <h3>Need More Help?</h3>
+    <p>If your question isn’t listed, feel free to reach out to our support team.</p>
+    <button class="help-btn" onclick="contactSupport()">Contact Support</button>
+  </div>
+</div>
+
+<script>
+  const faqItems = document.querySelectorAll('.faq-item');
+
+  faqItems.forEach(item => {
+    item.addEventListener('click', () => {
+      item.classList.toggle('active');
+      const icon = item.querySelector('i');
+      icon.classList.toggle('fa-chevron-down');
+      icon.classList.toggle('fa-chevron-up');
+    });
+  });
+
+  function contactSupport() {
+    const email = prompt("Enter your email:");
+    const message = prompt("Enter your message:");
+    if (!email || !message) return alert("Both fields are required.");
+
+    alert("Thanks! Our support team will contact you at " + email + " soon.");
+  }
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Even'Z | Event Highlights</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at center, #2e0854 0%, #0d0d0d 80%);
+  color: #fff;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+  position: relative;
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.85) 100%);
+  z-index: 0;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3.2rem;
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 15px #bb00ff, 0 0 30px #8000ff;
+  animation: glowText 3s ease-in-out infinite alternate;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes glowText {
+  from { text-shadow: 0 0 15px #bb00ff, 0 0 30px #8000ff; }
+  to { text-shadow: 0 0 25px #ff77ff, 0 0 50px #d000ff; }
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  z-index: 2;
+}
+
+.carousel-container {
+  overflow: hidden;
+  width: 95vw;
+  max-width: 1200px;
+  height: 400px;
+  perspective: 1000px;
+}
+
+.event-cards {
+  display: flex;
+  transition: transform 0.5s ease;
+  transform-style: preserve-3d;
+}
+
+.category-card {
+  flex: 0 0 70%;
+  margin: 0 10px;
+  background: linear-gradient(145deg, rgba(50,0,80,0.9), rgba(20,0,40,0.8));
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  opacity: 0.5;
+  transform: scale(0.8) rotateY(0deg);
+  transition: all 0.5s ease;
+  box-shadow: 0 0 15px rgba(187,0,255,0.5);
+}
+
+.category-card img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  filter: brightness(0.8);
+  border-radius: 20px;
+}
+
+.category-card h3 {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.8rem;
+  color: #ffccff;
+  text-shadow: 0 3px 10px rgba(255,102,255,0.8);
+}
+
+.category-card.active {
+  opacity: 1;
+  transform: scale(1) rotateY(0deg);
+  box-shadow: 0 0 45px rgba(255,102,255,0.8), 0 0 80px rgba(187,0,255,0.5);
+  animation: neonPulse 2s infinite alternate;
+}
+
+@keyframes neonPulse {
+  0% { box-shadow: 0 0 20px rgba(187,0,255,0.5), 0 0 40px rgba(255,102,255,0.3); }
+  50% { box-shadow: 0 0 40px rgba(255,102,255,0.7), 0 0 80px rgba(187,0,255,0.5); }
+  100% { box-shadow: 0 0 20px rgba(187,0,255,0.5), 0 0 40px rgba(255,102,255,0.3); }
+}
+
+.carousel-btn {
+  background: rgba(128, 0, 128, 0.8);
+  border: none;
+  color: #fff;
+  padding: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 2rem;
+  z-index: 2;
+}
+
+.carousel-btn:hover {
+  background: rgba(255, 102, 255, 0.9);
+  transform: scale(1.1);
+}
+
+.prev-btn { margin-right: 20px; }
+.next-btn { margin-left: 20px; }
+
+.carousel-dots {
+  text-align: center;
+  margin-top: 20px;
+  z-index: 2;
+  position: relative;
+}
+
+.carousel-dots span {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 5px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.carousel-dots .active {
+  background: #ff99ff;
+  width: 14px;
+  height: 14px;
+}
+
+.login-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: linear-gradient(45deg, #b700ff, #6a00ff);
+  color: #fff;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(183,0,255,0.7), 0 0 40px rgba(140,0,255,0.3);
+  z-index: 5;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: linear-gradient(45deg, #d000ff, #8000ff);
+  box-shadow: 0 0 35px rgba(208,0,255,0.8), 0 0 60px rgba(140,0,255,0.5);
+}
+</style>
+</head>
+<body>
+
+<h1>Even'Z Event Highlights</h1>
+
+<div class="carousel-wrapper">
+  <button class="carousel-btn prev-btn">‹</button>
+  <div class="carousel-container">
+    <div class="event-cards" id="eventCards">
+      <!-- Dynamic cards from backend -->
+    </div>
+  </div>
+  <button class="carousel-btn next-btn">›</button>
+</div>
+
+<div class="carousel-dots"></div>
+
+<button class="login-btn" onclick="window.location.href='Loginpage.html'">Login / Sign Up</button>
+
+<script>
+async function loadHighlights() {
+  try {
+    const res = await fetch("http://localhost:5000/api/highlights");
+    const data = await res.json();
+
+    if (!data.success) throw new Error("Failed to load highlights");
+
+    const container = document.getElementById("eventCards");
+    container.innerHTML = data.highlights.map((e, i) => `
+      <div class="category-card ${i === 0 ? 'active' : ''}">
+        <img src="${e.image}" alt="${e.name}">
+        <h3>${e.name}</h3>
+      </div>
+    `).join("");
+
+    initCarousel();
+  } catch (err) {
+    console.error(err);
+    document.getElementById("eventCards").innerHTML = "<p>⚠️ Unable to load highlights.</p>";
+  }
+}
+
+function initCarousel() {
+  const track = document.querySelector('.event-cards');
+  const cards = Array.from(document.querySelectorAll('.category-card'));
+  const prevBtn = document.querySelector('.prev-btn');
+  const nextBtn = document.querySelector('.next-btn');
+  const dotsContainer = document.querySelector('.carousel-dots');
+  let currentIndex = 0;
+  const totalCards = cards.length;
+
+  dotsContainer.innerHTML = '';
+  cards.forEach((card, index) => {
+    const dot = document.createElement('span');
+    if (index === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => { currentIndex = index; moveCarousel(); resetAutoScroll(); });
+    dotsContainer.appendChild(dot);
+  });
+
+  function moveCarousel() {
+    const cardWidth = cards[0].offsetWidth;
+    const offset = -cardWidth * currentIndex;
+    track.style.transform = `translateX(${offset}px)`;
+    cards.forEach((c, i) => {
+      c.classList.remove('active');
+      if (i === currentIndex) {
+        c.classList.add('active');
+        c.style.transform = 'scale(1)';
+        c.style.opacity = '1';
+      } else {
+        c.style.transform = 'scale(0.8)';
+        c.style.opacity = '0.4';
+      }
+    });
+    dotsContainer.querySelectorAll('span').forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIndex);
+    });
+  }
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+    moveCarousel();
+    resetAutoScroll();
+  });
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % totalCards;
+    moveCarousel();
+    resetAutoScroll();
+  });
+
+  let autoScroll = setInterval(() => {
+    currentIndex = (currentIndex + 1) % totalCards;
+    moveCarousel();
+  }, 3000);
+
+  function resetAutoScroll() {
+    clearInterval(autoScroll);
+    autoScroll = setInterval(() => {
+      currentIndex = (currentIndex + 1) % totalCards;
+      moveCarousel();
+    }, 3000);
+  }
+
+  moveCarousel();
+}
+
+window.addEventListener('load', loadHighlights);
+</script>
+
+</body>
+</html>
+

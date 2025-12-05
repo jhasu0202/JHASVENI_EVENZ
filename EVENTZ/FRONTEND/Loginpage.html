@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Even'Z | Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #2e0854 0%, #0d0d0d 80%);
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.85) 100%);
+      z-index: 0;
+    }
+
+    .login-container {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(145deg, rgba(50, 0, 80, 0.9), rgba(20, 0, 40, 0.8));
+      padding: 45px 40px;
+      border-radius: 20px;
+      width: 350px;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(198, 101, 234, 0.7), 0 0 80px rgba(140, 0, 255, 0.3);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(187, 0, 255, 0.3);
+      transition: 0.3s;
+    }
+
+    .login-container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 50px rgba(187,0,255,0.9), 0 0 100px rgba(140,0,255,0.4);
+    }
+
+    .login-container h1 {
+      color: #d09cff;
+      margin-bottom: 15px;
+      font-size: 2.3em;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #bb00ff, 0 0 20px #8000ff;
+    }
+
+    /* Switch buttons */
+    .role-toggle {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 25px;
+    }
+
+    .role-toggle button {
+      background: transparent;
+      border: 1px solid rgba(187,0,255,0.5);
+      color: #bb86fc;
+      padding: 8px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .role-toggle button.active {
+      background: linear-gradient(45deg, #b700ff, #6a00ff);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(187,0,255,0.5);
+    }
+
+    .role-toggle button:hover {
+      box-shadow: 0 0 15px rgba(187,0,255,0.5);
+    }
+
+    .input-box {
+      margin: 15px 0;
+      position: relative;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 12px 45px 12px 15px;
+      border: none;
+      border-radius: 8px;
+      background: #1f1f1f;
+      color: #fff;
+      font-size: 1em;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .input-box input:focus {
+      background: #292929;
+      box-shadow: 0 0 15px #bb00ff;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #bb86fc;
+      font-size: 1.1em;
+    }
+
+    .remember-me {
+      text-align: left;
+      margin-top: -10px;
+      margin-bottom: 20px;
+      font-size: 0.9em;
+      color: #ddd;
+    }
+
+    .remember-me input {
+      margin-right: 8px;
+    }
+
+    .btn {
+      margin-top: 10px;
+      background: linear-gradient(45deg, #b700ff, #6a00ff);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
+      box-shadow: 0 0 15px rgba(183, 0, 255, 0.5);
+    }
+
+    .btn:hover {
+      background: linear-gradient(45deg, #d000ff, #8000ff);
+      box-shadow: 0 0 25px rgba(208,0,255,0.7);
+    }
+
+    .links {
+      margin-top: 20px;
+      color: #aaa;
+      font-size: 0.9em;
+    }
+
+    .links a {
+      color: #bb86fc;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+      color: #d09cff;
+    }
+
+    @media (max-width: 400px) {
+      .login-container {
+        width: 90%;
+        padding: 35px 25px;
+      }
+      .login-container h1 {
+        font-size: 1.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Even'Z</h1>
+
+    <div class="role-toggle">
+      <button id="userBtn" class="active" onclick="switchRole('user')">User Login</button>
+      <button id="adminBtn" onclick="switchRole('admin')">Admin Login</button>
+    </div>
+
+    <!-- User Login Form -->
+    <form id="userForm" onsubmit="return handleLogin(event, 'user')">
+      <div class="input-box">
+        <input type="text" id="userName" placeholder="Username" required />
+      </div>
+
+      <div class="input-box">
+        <input type="password" id="userPass" placeholder="Password" required />
+        <span class="toggle-password" onclick="togglePassword('userPass')">👁️</span>
+      </div>
+
+      <div class="remember-me">
+        <input type="checkbox" id="userRemember" />
+        <label for="userRemember">Remember Me</label>
+      </div>
+
+      <button class="btn" type="submit">Login</button>
+    </form>
+
+    <!-- Admin Login Form -->
+    <form id="adminForm" style="display:none;" onsubmit="return handleLogin(event, 'admin')">
+      <div class="input-box">
+        <input type="text" id="adminName" placeholder="Admin Username" required />
+      </div>
+
+      <div class="input-box">
+        <input type="password" id="adminPass" placeholder="Admin Password" required />
+        <span class="toggle-password" onclick="togglePassword('adminPass')">👁️</span>
+      </div>
+
+      <div class="remember-me">
+        <input type="checkbox" id="adminRemember" />
+        <label for="adminRemember">Remember Me</label>
+      </div>
+
+      <button class="btn" type="submit">Login</button>
+    </form>
+
+    <div class="links">
+      <p>Don't have an account? <a href="sign up.html">Sign up</a></p>
+      <p><a href="forgot passs.html">Forgot Password?</a></p>
+    </div>
+  </div>
+<script>
+  // --- Preload default admin accounts if missing ---
+  const defaultAdmins = [
+    { username: "admin", password: "admin123", fullName: "System Admin" },
+    { username: "admin_Likith", password: "likith123", fullName: "Main Admin" },
+    { username: "eventz_master", password: "eventz@123", fullName: "EventZ Manager" }
+  ];
+  if (!localStorage.getItem("admins")) {
+    localStorage.setItem("admins", JSON.stringify(defaultAdmins));
+  }
+
+  // --- Toggle password visibility ---
+  function togglePassword(id) {
+    const passwordField = document.getElementById(id);
+    passwordField.type = passwordField.type === "password" ? "text" : "password";
+  }
+
+  // --- Switch between User/Admin login forms ---
+  function switchRole(role) {
+    const userBtn = document.getElementById("userBtn");
+    const adminBtn = document.getElementById("adminBtn");
+    const userForm = document.getElementById("userForm");
+    const adminForm = document.getElementById("adminForm");
+
+    if (role === "user") {
+      userBtn.classList.add("active");
+      adminBtn.classList.remove("active");
+      userForm.style.display = "block";
+      adminForm.style.display = "none";
+    } else {
+      adminBtn.classList.add("active");
+      userBtn.classList.remove("active");
+      userForm.style.display = "none";
+      adminForm.style.display = "block";
+    }
+  }
+
+  // --- Handle both User and Admin Login ---
+async function handleLogin(event, role) {
+  event.preventDefault();
+
+  const username = role === "admin"
+    ? document.getElementById("adminName").value.trim()
+    : document.getElementById("userName").value.trim();
+
+  const password = role === "admin"
+    ? document.getElementById("adminPass").value.trim()
+    : document.getElementById("userPass").value.trim();
+
+  try {
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ role, username, password })
+    });
+
+    const data = await response.json();
+    if (response.ok && data.success) {
+  // ✅ Save login info + ID
+  localStorage.setItem("loggedInUser", JSON.stringify({
+    id: data.id,       // 👈 store user ID
+    role,
+    username: data.username,
+    fullName: data.fullName
+  }));
+
+  // ✅ Also keep ID in sessionStorage (for cart)
+  sessionStorage.setItem("userId", data.id);
+  sessionStorage.setItem("username", data.username);
+
+  alert(`Welcome ${data.fullName}!`);
+  window.location.href = role === "admin"
+    ? "admindashboard.html"
+    : "mainpage.html";
+}
+else {
+      alert("Invalid username or password!");
+    }
+  } catch (error) {
+    console.error("Error logging in:", error);
+    alert("Error connecting to server. Please try again later.");
+  }
+}
+  // --- Default: show user login form ---
+  window.onload = () => {
+    switchRole("user");
+  };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Zone | Contact Support</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* 💜 Purple Neon Theme */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top, #120024 0%, #090010 100%);
+  color: #f0eaff;
+  overflow-x: hidden;
+}
+
+header {
+  background: linear-gradient(90deg, #7a00ff, #b300ff);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 0 25px #b300ff;
+  position: relative;
+  text-shadow: 0 0 10px #ff66ff;
+}
+
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 8px 15px;
+  background: #1a0026;
+  color: #d47bff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 0 12px #b300ff;
+  transition: 0.3s;
+}
+.back-btn:hover {
+  background: #b300ff;
+  color: #fff;
+  box-shadow: 0 0 18px #d47bff;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 50px auto;
+  background: rgba(30, 0, 60, 0.85);
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 25px rgba(170, 0, 255, 0.4);
+  border: 1px solid rgba(180, 0, 255, 0.3);
+}
+
+h2 {
+  color: #d47bff;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #b300ff;
+}
+
+p {
+  color: #d0b7ff;
+}
+
+.contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-bottom: 30px;
+}
+
+.info-card {
+  background: rgba(50, 0, 90, 0.8);
+  border-radius: 12px;
+  padding: 20px;
+  width: 280px;
+  text-align: center;
+  margin: 10px;
+  transition: 0.3s;
+  border-left: 4px solid #b300ff;
+  box-shadow: 0 0 10px #7a00ff;
+}
+.info-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 20px #d47bff;
+}
+.info-card i {
+  font-size: 2rem;
+  color: #d47bff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px #b300ff;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 320px;
+  text-align: center;
+}
+
+label {
+  font-weight: 600;
+  color: #f0eaff;
+}
+
+input, select, textarea {
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 2px solid #b300ff;
+  outline: none;
+  background: rgba(20, 0, 40, 0.8);
+  color: #fff;
+  font-size: 1rem;
+  transition: 0.3s;
+  box-shadow: 0 0 10px rgba(180, 0, 255, 0.2);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #d47bff;
+  box-shadow: 0 0 15px #d47bff;
+}
+
+textarea {
+  resize: none;
+  height: 120px;
+}
+
+button {
+  background: linear-gradient(90deg, #7a00ff, #b300ff);
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+  align-self: center;
+  box-shadow: 0 0 15px #b300ff;
+}
+button:hover {
+  background: #d47bff;
+  box-shadow: 0 0 25px #ff80ff;
+}
+
+.success-message {
+  background: rgba(180, 255, 210, 0.1);
+  border: 1px solid #8fffbe;
+  color: #8fffbe;
+  padding: 10px;
+  border-radius: 8px;
+  display: none;
+  margin-top: 10px;
+  box-shadow: 0 0 15px #66ff99;
+}
+
+@media (max-width: 768px) {
+  .contact-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  .info-card {
+    width: 90%;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="mainpage.html" class="back-btn">←</a>
+  Event Zone | Contact Support
+</header>
+
+
+<div class="container">
+  <h2>We’re Here to Help You</h2>
+  <p style="text-align:center; color:#666; margin-bottom:25px;">
+    Have an issue or question? Our team is ready to assist you with anything related to your event bookings or account.
+  </p>
+
+  <!-- Contact Info Cards -->
+  <div class="contact-info">
+    <div class="info-card">
+      <i class="fa-solid fa-envelope"></i>
+      <h3>Email Us</h3>
+      <p>support@eventzone.com</p>
+    </div>
+    <div class="info-card">
+      <i class="fa-solid fa-phone"></i>
+      <h3>Call Support</h3>
+      <p>+91 9652620716</p>
+    </div>
+    <div class="info-card">
+      <i class="fa-solid fa-clock"></i>
+      <h3>Working Hours</h3>
+      <p>Mon - Sat, 9:00 AM - 8:00 PM</p>
+    </div>
+  </div>
+
+  <!-- Contact Form -->
+  <form id="supportForm" class="sss">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" placeholder="Enter your name" required>
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email" placeholder="Enter your email" required>
+
+    <label for="issue">Issue Type</label>
+    <select id="issue" required>
+      <option value="">Select issue type</option>
+      <option>Payment Issue</option>
+      <option>Booking Problem</option>
+      <option>Feature Request</option>
+      <option>Account Help</option>
+      <option>Other</option>
+    </select>
+
+    <label for="message">Your Message</label>
+    <textarea id="message" placeholder="Describe your issue or query..." required></textarea>
+
+    <button type="submit"><i class="fa-solid fa-paper-plane"></i> Submit Request</button>
+    <div class="success-message" id="successMessage">
+      ✅ Your message has been sent successfully! Our team will reach out soon.
+    </div>
+  </form>
+</div>
+
+<script>
+const form = document.getElementById('supportForm');
+const successMessage = document.getElementById('successMessage');
+
+form.addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const issue = document.getElementById('issue').value;
+  const message = document.getElementById('message').value.trim();
+
+  if (!name || !email || !issue || !message) {
+    alert("Please fill out all fields.");
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:3000/api/support", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, issue, message })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      successMessage.style.display = 'block';
+      form.reset();
+      setTimeout(() => { successMessage.style.display = 'none'; }, 4000);
+    } else {
+      alert("⚠️ " + (data.message || "Failed to send message."));
+    }
+
+  } catch (error) {
+    console.error("❌ Error submitting form:", error);
+    alert("Server error. Please try again later.");
+  }
+});
+</script>
+
+
+</body>
+</html>
+

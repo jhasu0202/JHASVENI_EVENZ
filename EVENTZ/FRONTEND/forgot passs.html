@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Even'Z | Forgot Password</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+body{height:100vh;display:flex;justify-content:center;align-items:center;background:radial-gradient(circle at center,#2e0854 0%,#0d0d0d 80%);}
+.container{position:relative;background:linear-gradient(145deg, rgba(50,0,80,0.9), rgba(20,0,40,0.8));padding:45px 40px;border-radius:20px;width:380px;text-align:center;box-shadow:0 0 35px rgba(187,0,255,0.7),0 0 80px rgba(140,0,255,0.3);backdrop-filter:blur(12px);border:1px solid rgba(187,0,255,0.3);}
+.container h1{color:#d09cff;margin-bottom:15px;font-size:2em;text-shadow:0 0 10px #bb00ff,0 0 20px #8000ff;}
+.input-box{margin:15px 0;}
+.input-box input{width:100%;padding:12px 15px;border:none;border-radius:8px;background:#1f1f1f;color:#fff;font-size:1em;outline:none;transition:0.3s;}
+.input-box input:focus{background:#292929;box-shadow:0 0 15px #bb00ff;}
+.btn{margin-top:10px;background:linear-gradient(45deg,#b700ff,#6a00ff);color:#fff;border:none;padding:12px 20px;border-radius:8px;font-size:1em;cursor:pointer;transition:0.3s;width:100%;box-shadow:0 0 15px rgba(183,0,255,0.5);}
+.btn:hover{background:linear-gradient(45deg,#d000ff,#8000ff);box-shadow:0 0 25px rgba(208,0,255,0.7);}
+.links{margin-top:20px;color:#aaa;font-size:0.9em;}
+.links a{color:#bb86fc;text-decoration:none;}
+.links a:hover{text-decoration:underline;color:#d09cff;}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Forgot Password</h1>
+  <p style="color:#ccc; margin-bottom:20px;">Enter your username or email to receive an OTP.</p>
+  <form id="forgotForm" onsubmit="return sendOTP(event)">
+    <div class="input-box">
+      <input type="text" id="userInput" placeholder="Username or Email" required />
+    </div>
+    <button class="btn" type="submit">Send OTP</button>
+  </form>
+  <div class="links">
+    <p>Back to <a href="Loginpage.html">Login</a></p>
+  </div>
+</div>
+
+<script>
+async function sendOTP(event) {
+  event.preventDefault();
+  const input = document.getElementById("userInput").value.trim();
+
+  if (!input) {
+    alert("Please enter your username or email.");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:5000/api/send-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input }),
+    });
+
+    const data = await response.json();
+    console.log("Response:", data);
+
+    if (response.ok && data.success) {
+      alert("OTP sent successfully! (Check console for now.)");
+      localStorage.setItem("resetUser", input);
+      window.location.href = "reset-pass.html";
+    } else {
+      alert(data.message || "Failed to send OTP");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Server error — please try again later.");
+  }
+}
+</script>
+</body>
+</html>
+

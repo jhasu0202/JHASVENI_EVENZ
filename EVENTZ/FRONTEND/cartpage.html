@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Zone | Cart</title>
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top left, #1a001f, #090011);
+  color: #e6e6ff;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  background: rgba(80, 0, 120, 0.7);
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 0 25px #a020f0;
+  text-shadow: 0 0 12px #c44dff;
+}
+
+.cart-container {
+  max-width: 650px;
+  width: 90%;
+  margin: 40px auto;
+  background: rgba(40, 0, 60, 0.85);
+  border-radius: 20px;
+  box-shadow: 0 0 35px rgba(160, 32, 240, 0.4);
+  padding: 35px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+h2 {
+  color: #d580ff;
+  text-shadow: 0 0 10px #a020f0;
+  margin-bottom: 25px;
+}
+
+.cart-item {
+  background: rgba(50, 0, 80, 0.9);
+  border: 1px solid #a020f0;
+  border-radius: 15px;
+  padding: 25px 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 0 20px rgba(160, 32, 240, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cart-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 35px rgba(200, 80, 255, 0.6);
+}
+
+.item-detail {
+  font-size: 1.1rem;
+  margin: 8px 0;
+  color: #e6ccff;
+}
+
+.price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #d580ff;
+  margin: 15px 0;
+  text-shadow: 0 0 10px #b84dff;
+}
+
+.btn {
+  background: #9b00ff;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 8px;
+  transition: 0.3s;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 0 20px #a020f0;
+}
+
+.btn:hover {
+  background: #c44dff;
+  box-shadow: 0 0 30px #d580ff;
+}
+
+.cancel-btn {
+  background: #6600cc;
+}
+
+.cancel-btn:hover {
+  background: #b84dff;
+}
+
+.no-cart {
+  font-size: 1.1rem;
+  color: #d1a8ff;
+  margin: 30px 0;
+}
+
+a.btn {
+  color: #fff;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #d1a8ff;
+  margin-top: 40px;
+  text-shadow: 0 0 8px #b84dff;
+}
+
+.back-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #9b00ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  box-shadow: 0 0 20px #a020f0;
+}
+.back-btn:hover {
+  background: #c44dff;
+  box-shadow: 0 0 30px #d580ff;
+}
+</style>
+</head>
+<body>
+<header>Event Zone | Cart</header>
+
+<div class="cart-container" id="cartContainer">
+  <h2>Your Selected Plan</h2>
+  <div id="cartContent"></div>
+  <a href="mainpage.html" class="btn">← Back to Main Page</a>
+</div>
+
+<script>
+const apiBase = "http://localhost:5000/api";
+
+async function loadCart() {
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("userId") || sessionStorage.getItem("userId");
+  const cartContent = document.getElementById("cartContent");
+
+  if (!userId) {
+    cartContent.innerHTML = `
+      <div class="no-cart">
+        ❌ No user ID found.<br>
+        <a href="mainpage.html" class="btn">Go Back</a>
+      </div>`;
+    return;
+  }
+
+  try {
+    const res = await fetch(`${apiBase}/cart/${userId}`);
+    const result = await res.json();
+
+    if (!result.success || !result.bookings || result.bookings.length === 0) {
+      cartContent.innerHTML = `
+        <div class="no-cart">
+          🛒 No active bookings found.<br>
+          <a href="mainpage.html" class="btn">Browse Events</a>
+        </div>`;
+      return;
+    }
+
+    cartContent.innerHTML = result.bookings.map(b => `
+      <div class="cart-item">
+        <div class="item-detail"><strong>User:</strong> ${b.USERNAME}</div>
+        <div class="item-detail"><strong>Event:</strong> ${b.EVENT_NAME}</div>
+        <div class="item-detail"><strong>Plan:</strong> ${b.PLAN}</div>
+        <div class="item-detail"><strong>Guests:</strong> ${b.GUESTS}</div>
+        <div class="item-detail"><strong>Date:</strong> ${b.BOOKING_DATE}</div>
+        <div class="price">₹${Number(b.PRICE).toLocaleString()}</div>
+        <button class="btn" onclick="goToAgreement(${b.BOOKING_ID})">Proceed to Agreement</button>
+        <button class="btn cancel-btn" onclick="cancelBooking(${b.BOOKING_ID})">Cancel Booking</button>
+      </div>
+    `).join("");
+  } catch (err) {
+    console.error("Error loading cart:", err);
+    cartContent.innerHTML = `
+      <div class="no-cart">
+        ⚠️ Unable to load your cart.<br>
+        <a href="mainpage.html" class="btn">Try Again</a>
+      </div>`;
+  }
+}
+
+async function cancelBooking(bookingId) {
+  if (!confirm("Are you sure you want to cancel this booking?")) return;
+
+  try {
+    const res = await fetch(`${apiBase}/cart/${bookingId}`, { method: "DELETE" });
+    const data = await res.json();
+    alert(data.message);
+    if (data.success) loadCart();
+  } catch (err) {
+    console.error("Error cancelling booking:", err);
+    alert("⚠️ Failed to cancel booking. Please try again.");
+  }
+}
+
+function goToAgreement(bookingId) {
+  window.location.href = `agreementpage.html?bookingId=${bookingId}`;
+}
+
+loadCart();
+</script>
+</body>
+</html>
+

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Zone | Calendar</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #9b5cff;
+  --secondary: #b07aff;
+  --bg: radial-gradient(circle at top left, #1b002e, #11001b);
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --text: #eee;
+  --white: #fff;
+  --neon-glow: 0 0 12px #b57bff, 0 0 25px #a05bff;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  margin: 0;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(90deg, #9b5cff, #b07aff);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  box-shadow: 0 0 20px #a569ff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  position: relative;
+  text-shadow: var(--neon-glow);
+}
+
+header img {
+  height: 45px;
+  border-radius: 10px;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 700px;
+  margin: 50px auto;
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(155, 92, 255, 0.3);
+  padding: 30px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  color: #fff;
+  transition: 0.3s;
+}
+
+/* MONTH HEADER */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.calendar-header button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: 0.2s;
+  text-shadow: var(--neon-glow);
+}
+.calendar-header button:hover {
+  color: var(--secondary);
+  transform: scale(1.2);
+}
+.calendar-header h2 {
+  color: var(--white);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-shadow: var(--neon-glow);
+}
+
+/* CALENDAR GRID */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+.day {
+  padding: 15px 0;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #eee;
+}
+.day:hover {
+  background: #9b5cff;
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #a97eff;
+}
+.day-header {
+  font-weight: 600;
+  background: linear-gradient(90deg, #9b5cff, #b07aff);
+  color: var(--white);
+  border-radius: 8px;
+  padding: 10px 0;
+  text-shadow: var(--neon-glow);
+}
+.today {
+  border: 2px solid #b07aff;
+  position: relative;
+  box-shadow: 0 0 10px #b07aff;
+}
+.today::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  background: #b07aff;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0% {transform: scale(1); opacity: 0.8;}
+  50% {transform: scale(1.4); opacity: 0.3;}
+  100% {transform: scale(1); opacity: 0.8;}
+}
+.weekend {
+  background: rgba(155, 92, 255, 0.15);
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+button.action-btn {
+  background: linear-gradient(90deg, #9b5cff, #b07aff);
+  color: var(--white);
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+  box-shadow: 0 0 12px #a05bff;
+}
+button.action-btn:hover {
+  box-shadow: 0 0 20px #b57bff;
+  transform: scale(1.05);
+}
+button.action-btn:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.selected {
+  background: var(--primary) !important;
+  color: #fff !important;
+  box-shadow: 0 0 15px #b57bff;
+}
+
+/* RESPONSIVE */
+@media(max-width: 600px) {
+  .calendar {gap: 5px;}
+  .day, .day-header {padding: 10px 0;}
+  header {font-size: 1.4rem;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://cdn-icons-png.flaticon.com/512/3550/3550487.png" alt="Event Zone Logo">
+  Event Zone | Calendar
+</header>
+
+<div class="container">
+  <div class="calendar-header">
+    <button id="prevMonth"><i class="fa-solid fa-chevron-left"></i></button>
+    <h2 id="monthYear"></h2>
+    <button id="nextMonth"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+
+  <div class="calendar" id="calendar"></div>
+
+  <div class="footer">
+    <button class="action-btn" id="homeBtn"><i class="fa-solid fa-house"></i> Home</button>
+    <button class="action-btn" id="continueBtn" disabled>Continue</button>
+  </div>
+</div>
+
+<script>
+const calendar = document.getElementById('calendar');
+const monthYear = document.getElementById('monthYear');
+const continueBtn = document.getElementById('continueBtn');
+let selectedDate = null;
+let currentDate = new Date();
+
+// Fetch & render events (optional)
+async function fetchEvents(year, month) {
+  try {
+    const res = await fetch(`/api/events?year=${year}&month=${month + 1}`);
+    const data = await res.json();
+    return data.success ? data.events : [];
+  } catch {
+    return [];
+  }
+}
+
+async function renderCalendar(date) {
+  calendar.innerHTML = '';
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  monthYear.textContent = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+  const daysOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  daysOfWeek.forEach(day => {
+    const div = document.createElement('div');
+    div.classList.add('day-header');
+    div.textContent = day;
+    calendar.appendChild(div);
+  });
+
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement('div');
+    empty.classList.add('day');
+    empty.style.visibility = 'hidden';
+    calendar.appendChild(empty);
+  }
+
+  const today = new Date();
+  const events = await fetchEvents(year, month);
+  const eventDates = events.map(e => new Date(e.date).getDate());
+
+  for (let i = 1; i <= daysInMonth; i++) {
+    const dayDiv = document.createElement('div');
+    dayDiv.classList.add('day');
+    const dayOfWeek = new Date(year, month, i).getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) dayDiv.classList.add('weekend');
+    dayDiv.textContent = i;
+
+    if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+      dayDiv.classList.add('today');
+    }
+
+    if (eventDates.includes(i)) {
+      dayDiv.style.background = "#ff9233";
+      dayDiv.style.color = "#fff";
+      dayDiv.style.fontWeight = "600";
+    }
+
+    // Click event for selecting date
+    dayDiv.addEventListener('click', () => {
+      document.querySelectorAll('.day').forEach(d => d.classList.remove('selected'));
+      dayDiv.classList.add('selected');
+      selectedDate = new Date(year, month, i);
+      continueBtn.disabled = false;
+    });
+
+    calendar.appendChild(dayDiv);
+  }
+}
+
+// Navigation
+document.getElementById('prevMonth').addEventListener('click', () => {
+  currentDate.setMonth(currentDate.getMonth() - 1);
+  renderCalendar(currentDate);
+});
+document.getElementById('nextMonth').addEventListener('click', () => {
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  renderCalendar(currentDate);
+});
+
+// Home
+document.getElementById('homeBtn').addEventListener('click', () => {
+  window.location.href = "mainpage.html";
+});
+
+// Continue (save to DB then redirect)
+continueBtn.addEventListener('click', async () => {
+  if (!selectedDate) return alert("❌ Please select a date first!");
+
+  try {
+    const formattedDate = selectedDate.toISOString().split('T')[0]; // YYYY-MM-DD
+    const res = await fetch("http://localhost:5000/api/save-date", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ date: formattedDate }),
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      alert("✅ Date saved successfully!");
+      window.location.href = "mainpage.html";
+    } else {
+      alert("❌ Failed to save date: " + data.message);
+    }
+  } catch (err) {
+    console.error("Error saving date:", err);
+    alert("❌ Error saving date to database.");
+  }
+});
+
+renderCalendar(currentDate);
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Even'Z | Sign Up</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #2e0854 0%, #0d0d0d 80%);
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.85) 100%);
+      z-index: 0;
+    }
+
+    .signup-container {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(145deg, rgba(50, 0, 80, 0.9), rgba(20, 0, 40, 0.8));
+      padding: 45px 40px;
+      border-radius: 20px;
+      width: 380px;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(187, 0, 255, 0.7), 0 0 80px rgba(140, 0, 255, 0.3);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(187, 0, 255, 0.3);
+      transition: 0.3s;
+    }
+
+    .signup-container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 50px rgba(187,0,255,0.9), 0 0 100px rgba(140,0,255,0.4);
+    }
+
+    .signup-container h1 {
+      color: #d09cff;
+      margin-bottom: 15px;
+      font-size: 2.3em;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #bb00ff, 0 0 20px #8000ff;
+    }
+
+    .input-box {
+      margin: 15px 0;
+      position: relative;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 8px;
+      background: #1f1f1f;
+      color: #fff;
+      font-size: 1em;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .input-box input:focus {
+      background: #292929;
+      box-shadow: 0 0 15px #bb00ff;
+    }
+
+    .btn {
+      margin-top: 10px;
+      background: linear-gradient(45deg, #b700ff, #6a00ff);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
+      box-shadow: 0 0 15px rgba(183, 0, 255, 0.5);
+    }
+
+    .btn:hover {
+      background: linear-gradient(45deg, #d000ff, #8000ff);
+      box-shadow: 0 0 25px rgba(208,0,255,0.7);
+    }
+
+    .links {
+      margin-top: 20px;
+      color: #aaa;
+      font-size: 0.9em;
+    }
+
+    .links a {
+      color: #bb86fc;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+      color: #d09cff;
+    }
+
+    @media (max-width: 400px) {
+      .signup-container {
+        width: 90%;
+        padding: 35px 25px;
+      }
+      .signup-container h1 {
+        font-size: 1.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h1>Create Account</h1>
+
+    <form id="signupForm">
+      <div class="input-box">
+        <input type="text" id="fullName" placeholder="Full Name" required />
+      </div>
+      <div class="input-box">
+        <input type="email" id="email" placeholder="Email Address" required />
+      </div>
+      <div class="input-box">
+        <input type="text" id="username" placeholder="Username" required />
+      </div>
+      <div class="input-box">
+        <input type="password" id="password" placeholder="Password" required />
+      </div>
+      <div class="input-box">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+      </div>
+
+      <button class="btn" type="submit">Sign Up</button>
+    </form>
+
+    <div class="links">
+      <p>Already have an account? <a href="Loginpage.html">Login</a></p>
+    </div>
+  </div>
+
+  <script>
+  document.getElementById("signupForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const fullName = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fullName, email, username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        alert("✅ Signup successful! Redirecting to login...");
+        window.location.href = "Loginpage.html";
+      } else {
+        alert(data.message || "Signup failed!");
+      }
+    } catch (error) {
+      console.error("❌ Error signing up:", error);
+      alert("Error connecting to the server. Please try again later.");
+    }
+  });
+  </script>
+</body>
+</html>
+
