@@ -1,4 +1,4 @@
-# JHASVENI_EVENZ 
+ #evenz-event-platform
 🎉 Even'Z – Event Management Platform (Frontend)
 
 A complete event-booking and management web application built with HTML, CSS, JavaScript, designed with a purple neon UI theme and includes both User Side and Admin Dashboard.
