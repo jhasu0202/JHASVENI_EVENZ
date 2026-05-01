@@ -205,24 +205,6 @@ Rounded cards and smooth animations
 
 Responsive layouts
 
-⚙️ Future Improvements (Optional Section)
-
-You may add:
-
-JWT authentication integration
-
-Backend deployment
-
-Image uploads for events
-
-Payment gateway integration (Razorpay)
-
-I can write these sections too if you want.
-
-📜 License
-
-This project is for educational and personal use.
-Add MIT or Apache license if you want.
 
 👨‍💻 Author
 
